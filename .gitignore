@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Model files and downloads
+*.gguf
+*.safetensors
+neuron-gallery.json
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

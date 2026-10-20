@@ -1,0 +1,15 @@
+$ python3 gallery_twins.py
+Qwen3-32B: 500 gallery neurons, 4 twin pairs at +24 (expected by chance 0.05)
+  L12_N12088       Forty-two, when it’s the answer to everything: a Hitchhiker’s Guide neuron
+  L36_N12088       A Hitchhiker's Guide neuron that lights up before the Answer
+
+  L26_N17433       Little did they know: a neuron for narrated knowledge gaps
+  L50_N17433       Little did they know: a neuron for narrated past ignorance
+
+  L30_N8699        The pending verdict when a rival makes something look lesser
+  L54_N8699        A neuron that sees “put them to shame” coming
+
+  L31_N16641       Costumes as a figure of speech
+  L55_N16641       A neuron for 'X is really a Y in disguise'
+
+Qwen3.6-35B-A3B: 500 gallery neurons, 0 twin pairs at +12 (expected by chance 0.01)
