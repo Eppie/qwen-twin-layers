@@ -1,0 +1,25 @@
+== 1. residual-dim map from embedding columns
+map built on tokens 0-14999: median |corr| 0.273; on held-out tokens 15000-29999 the same pairs give median 0.251 (all positive after sign: 100%); distinct targets 1008/1024; held-out best-match agreement 99%
+
+== 2. independent checks of the map
+input_layernorm            per-dim gain r under pi: median 0.837 (min 0.624); pi shuffled: median -0.010
+post_attention_layernorm   per-dim gain r under pi: median 0.902 (min 0.773); pi shuffled: median -0.005
+final norm                 r under pi 0.908
+same-row cosine with residual dims remapped (layer p vs p | layer p vs p+5 | pi shuffled):
+  self_attn.k_proj   median 0.173 (range 0.045-0.224) | +0.0006 | +0.0002
+  self_attn.v_proj   median 0.042 (range 0.015-0.098) | -0.0002 | +0.0003
+  self_attn.q_proj   median 0.139 (range 0.044-0.181) | -0.0000 | +0.0005
+  self_attn.o_proj   median 0.033 (range 0.011-0.088) | +0.0000 | +0.0001
+
+== 3. FFN neurons (gate and up rows, columns remapped): best 1.7B match for each 0.6B neuron
+  layer  0: median best 0.102 (second best 0.083); down column at that match 0.104; distinct targets 2667/3072; index order correlation (0.6B j vs matched 1.7B index) -0.023
+  layer  7: median best 0.153 (second best 0.088); down column at that match 0.177; distinct targets 2920/3072; index order correlation (0.6B j vs matched 1.7B index) -0.004
+  layer 14: median best 0.157 (second best 0.091); down column at that match 0.151; distinct targets 2854/3072; index order correlation (0.6B j vs matched 1.7B index) +0.006
+  layer 21: median best 0.191 (second best 0.093); down column at that match 0.202; distinct targets 3003/3072; index order correlation (0.6B j vs matched 1.7B index) +0.001
+  layer 27: median best 0.203 (second best 0.093); down column at that match 0.201; distinct targets 2910/3072; index order correlation (0.6B j vs matched 1.7B index) -0.013
+
+== 4. direction signatures for the residual map
+pi monotone? Spearman(d, pi(d)) = -0.013
+embedding column norm                     : Spearman(0.6B index d, importance rank of pi(d)) -0.264; matched dims median rank 1310 vs unmatched 881 (of 2048)
+mean |input_layernorm gain| over layers   : Spearman(0.6B index d, importance rank of pi(d)) +0.623; matched dims median rank 758 vs unmatched 1096 (of 2048)
+k/q/v input column norm (all layers)      : Spearman(0.6B index d, importance rank of pi(d)) -0.876; matched dims median rank 1518 vs unmatched 624 (of 2048)

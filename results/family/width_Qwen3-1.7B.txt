@@ -1,0 +1,15 @@
+Qwen3-1.7B: FFN 6144 neurons, 16 query heads in 8 KV groups
+  layer  0 FFN: best within-layer match (mean of gate/up/down cosines): median 0.090, >0.1 for 41.4% of neurons (mutual 46%); commonest |offset| 3570 x6, 12 x6, 3243 x5
+           heads: max off-diagonal 0.215, median best 0.011; mutual pairs above 0.1: [(0, 1), (10, 11)]
+  layer  1 FFN: best within-layer match (mean of gate/up/down cosines): median 0.099, >0.1 for 49.4% of neurons (mutual 40%); commonest |offset| 564 x7, 2385 x6, 1851 x6
+           heads: max off-diagonal 0.120, median best 0.008; mutual pairs above 0.1: [(2, 3)]
+  layer  7 FFN: best within-layer match (mean of gate/up/down cosines): median 0.091, >0.1 for 39.9% of neurons (mutual 56%); commonest |offset| 1853 x6, 835 x6, 630 x6
+           heads: max off-diagonal 0.069, median best 0.008; mutual pairs above 0.1: []
+  layer 14 FFN: best within-layer match (mean of gate/up/down cosines): median 0.123, >0.1 for 77.4% of neurons (mutual 43%); commonest |offset| 381 x11, 3534 x8, 648 x8
+           heads: max off-diagonal 0.342, median best 0.008; mutual pairs above 0.1: [(14, 15)]
+  layer 21 FFN: best within-layer match (mean of gate/up/down cosines): median 0.090, >0.1 for 38.1% of neurons (mutual 61%); commonest |offset| 1 x7, 2773 x6, 3468 x5
+           heads: max off-diagonal 0.383, median best 0.059; mutual pairs above 0.1: [(8, 9), (12, 13)]
+  layer 26 FFN: best within-layer match (mean of gate/up/down cosines): median 0.069, >0.1 for 27.9% of neurons (mutual 56%); commonest |offset| 2979 x5, 849 x5, 88 x5
+           heads: max off-diagonal 0.086, median best 0.009; mutual pairs above 0.1: []
+  layer 27 FFN: best within-layer match (mean of gate/up/down cosines): median 0.104, >0.1 for 52.3% of neurons (mutual 46%); commonest |offset| 1637 x6, 1227 x6, 511 x6
+           heads: max off-diagonal 0.014, median best 0.008; mutual pairs above 0.1: []

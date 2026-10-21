@@ -20,3 +20,10 @@ neuron-gallery.json
 
 # Intermediate arrays written by weight_tests/ (per-neuron data, up to ~37 MB each)
 results/weight_tests/*.npz
+
+# Tensors range-fetched by family/ and embedding slices (several GB)
+family/cache/
+
+# Residual-stream dumps written by family/dump_residuals_hf.py (several GB)
+*.bin
+*.idx

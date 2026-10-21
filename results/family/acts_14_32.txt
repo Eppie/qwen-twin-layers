@@ -1,0 +1,53 @@
+32B: 36 texts, 10179 tokens, 64 layers
+14B: 40 layers captured
+
+median over dims of same-dim Pearson r; for each 14B layer: its best 32B layer, and the predicted ones
+  14B layer  0: best 32B layer  0 (r 0.619); predicted 0: 0.619; dims shuffled -0.000; median over all 32B layers 0.084
+  14B layer  1: best 32B layer  1 (r 0.625); predicted 1: 0.625; dims shuffled +0.000; median over all 32B layers 0.101
+  14B layer  2: best 32B layer  2 (r 0.615); predicted 2: 0.615; dims shuffled +0.001; median over all 32B layers 0.115
+  14B layer  3: best 32B layer  3 (r 0.607); predicted 3: 0.607; dims shuffled +0.000; median over all 32B layers 0.131
+  14B layer  4: best 32B layer  4 (r 0.593); predicted 4: 0.593; dims shuffled -0.000; median over all 32B layers 0.147
+  14B layer  5: best 32B layer  5 (r 0.579); predicted 5: 0.579; dims shuffled +0.000; median over all 32B layers 0.167
+  14B layer  6: best 32B layer  6 (r 0.553); predicted 6: 0.553; dims shuffled -0.000; median over all 32B layers 0.197
+  14B layer  7: best 32B layer  7 (r 0.511); predicted 7: 0.511; dims shuffled -0.000; median over all 32B layers 0.218
+  14B layer  8: best 32B layer  8 (r 0.486); predicted 8: 0.486, 32: 0.288; dims shuffled +0.000; median over all 32B layers 0.247
+  14B layer  9: best 32B layer  9 (r 0.476); predicted 9: 0.476, 33: 0.343; dims shuffled +0.000; median over all 32B layers 0.270
+  14B layer 10: best 32B layer 10 (r 0.451); predicted 10: 0.451, 34: 0.364; dims shuffled +0.001; median over all 32B layers 0.280
+  14B layer 11: best 32B layer 11 (r 0.434); predicted 11: 0.434, 35: 0.393; dims shuffled +0.000; median over all 32B layers 0.293
+  14B layer 12: best 32B layer 36 (r 0.415); predicted 12: 0.410, 36: 0.415; dims shuffled +0.001; median over all 32B layers 0.294
+  14B layer 13: best 32B layer 37 (r 0.454); predicted 13: 0.390, 37: 0.454; dims shuffled -0.000; median over all 32B layers 0.292
+  14B layer 14: best 32B layer 38 (r 0.491); predicted 14: 0.379, 38: 0.491; dims shuffled +0.001; median over all 32B layers 0.292
+  14B layer 15: best 32B layer 39 (r 0.510); predicted 15: 0.370, 39: 0.510; dims shuffled -0.000; median over all 32B layers 0.303
+  14B layer 16: best 32B layer 40 (r 0.533); predicted 16: 0.361, 40: 0.533; dims shuffled +0.001; median over all 32B layers 0.309
+  14B layer 17: best 32B layer 41 (r 0.540); predicted 17: 0.343, 41: 0.540; dims shuffled +0.001; median over all 32B layers 0.302
+  14B layer 18: best 32B layer 42 (r 0.547); predicted 18: 0.329, 42: 0.547; dims shuffled +0.001; median over all 32B layers 0.293
+  14B layer 19: best 32B layer 43 (r 0.544); predicted 19: 0.314, 43: 0.544; dims shuffled +0.000; median over all 32B layers 0.281
+  14B layer 20: best 32B layer 44 (r 0.550); predicted 20: 0.306, 44: 0.550; dims shuffled +0.001; median over all 32B layers 0.273
+  14B layer 21: best 32B layer 45 (r 0.573); predicted 21: 0.304, 45: 0.573; dims shuffled +0.001; median over all 32B layers 0.267
+  14B layer 22: best 32B layer 46 (r 0.590); predicted 22: 0.308, 46: 0.590; dims shuffled +0.001; median over all 32B layers 0.264
+  14B layer 23: best 32B layer 47 (r 0.610); predicted 23: 0.307, 47: 0.610; dims shuffled +0.001; median over all 32B layers 0.256
+  14B layer 24: best 32B layer 48 (r 0.625); predicted 24: 0.310, 48: 0.625; dims shuffled +0.000; median over all 32B layers 0.254
+  14B layer 25: best 32B layer 49 (r 0.641); predicted 25: 0.312, 49: 0.641; dims shuffled +0.000; median over all 32B layers 0.255
+  14B layer 26: best 32B layer 50 (r 0.661); predicted 26: 0.313, 50: 0.661; dims shuffled -0.001; median over all 32B layers 0.250
+  14B layer 27: best 32B layer 51 (r 0.681); predicted 27: 0.305, 51: 0.681; dims shuffled +0.000; median over all 32B layers 0.240
+  14B layer 28: best 32B layer 52 (r 0.696); predicted 28: 0.293, 52: 0.696; dims shuffled +0.001; median over all 32B layers 0.225
+  14B layer 29: best 32B layer 53 (r 0.707); predicted 29: 0.272, 53: 0.707; dims shuffled -0.000; median over all 32B layers 0.210
+  14B layer 30: best 32B layer 54 (r 0.719); predicted 30: 0.251, 54: 0.719; dims shuffled +0.000; median over all 32B layers 0.191
+  14B layer 31: best 32B layer 55 (r 0.731); predicted 31: 0.229, 55: 0.731; dims shuffled +0.000; median over all 32B layers 0.176
+  14B layer 32: best 32B layer 56 (r 0.737); predicted 56: 0.737; dims shuffled -0.000; median over all 32B layers 0.161
+  14B layer 33: best 32B layer 57 (r 0.735); predicted 57: 0.735; dims shuffled +0.000; median over all 32B layers 0.148
+  14B layer 34: best 32B layer 58 (r 0.727); predicted 58: 0.727; dims shuffled +0.001; median over all 32B layers 0.136
+  14B layer 35: best 32B layer 59 (r 0.717); predicted 59: 0.717; dims shuffled +0.000; median over all 32B layers 0.126
+  14B layer 36: best 32B layer 60 (r 0.703); predicted 60: 0.703; dims shuffled +0.001; median over all 32B layers 0.115
+  14B layer 37: best 32B layer 61 (r 0.688); predicted 61: 0.688; dims shuffled +0.000; median over all 32B layers 0.103
+  14B layer 38: best 32B layer 62 (r 0.658); predicted 62: 0.658; dims shuffled +0.000; median over all 32B layers 0.090
+  14B layer 39: best 32B layer 63 (r 0.587); predicted 63: 0.587; dims shuffled +0.004; median over all 32B layers 0.076
+
+best-match identity: for 14B layer p vs 32B layer m, fraction of 14B dims whose most-correlated 32B dim is the same index
+  14B  4 vs 32B  4: same-index best match 100%; median same-dim r 0.593
+  14B 12 vs 32B 12: same-index best match 99%; median same-dim r 0.410
+  14B 12 vs 32B 36: same-index best match 98%; median same-dim r 0.415
+  14B 20 vs 32B 20: same-index best match 93%; median same-dim r 0.306
+  14B 20 vs 32B 44: same-index best match 100%; median same-dim r 0.550
+  14B 36 vs 32B 60: same-index best match 100%; median same-dim r 0.703
+  14B 20 vs 32B 30: same-index best match 86%; median same-dim r 0.281

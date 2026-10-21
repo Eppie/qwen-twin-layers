@@ -1,0 +1,8 @@
+== Qwen/Qwen3-30B-A3B: layers [6, 18, 30, 7] (last is the non-twin control), experts [0, 37, 85, 120]
+  expert   0: same expert across twin layers 0.240-0.359 | other experts 0.008 max | same expert vs control layer 0.004 max | neuron-level (layers 6,18): same index median 0.285, 100% above 0.1; shuffled +0.006
+  expert  37: same expert across twin layers 0.218-0.341 | other experts 0.008 max | same expert vs control layer 0.005 max | neuron-level (layers 6,18): same index median 0.266, 100% above 0.1; shuffled +0.007
+  expert  85: same expert across twin layers 0.218-0.372 | other experts 0.004 max | same expert vs control layer 0.002 max | neuron-level (layers 6,18): same index median 0.266, 100% above 0.1; shuffled +0.002
+  expert 120: same expert across twin layers 0.072-0.130 | other experts 0.003 max | same expert vs control layer 0.002 max | neuron-level (layers 6,18): same index median 0.093, 40% above 0.1; shuffled +0.000
+== Qwen/Qwen3-235B-A22B: layers [13, 33, 47, 67, 14] (last is the non-twin control), experts [5, 77]
+  expert   5: same expert across twin layers 0.305-0.415 | other experts 0.002 max | same expert vs control layer 0.001 max | neuron-level (layers 13,33): same index median 0.318, 100% above 0.1; shuffled +0.002
+  expert  77: same expert across twin layers 0.295-0.412 | other experts 0.003 max | same expert vs control layer 0.001 max | neuron-level (layers 13,33): same index median 0.295, 100% above 0.1; shuffled +0.002

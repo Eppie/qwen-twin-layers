@@ -1,0 +1,17 @@
+residual dimensions matched through embedding columns over the first 30000 tokens
+for each dim of the narrower model: best |corr| with any dim of the wider one; null = same with tokens shuffled
+      0.6B (1024) vs     1.7B (2048): median best |corr| 0.262 (null 0.021); dims > 0.5: 5%; best match is the same index for 0%; distinct targets 1008/1024
+      0.6B (1024) vs       4B (2560): median best |corr| 0.093 (null 0.021); dims > 0.5: 2%; best match is the same index for 0%; distinct targets 450/1024
+      0.6B (1024) vs       8B (4096): median best |corr| 0.076 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 212/1024
+      0.6B (1024) vs      14B (5120): median best |corr| 0.075 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 305/1024
+      0.6B (1024) vs      32B (5120): median best |corr| 0.075 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 363/1024
+      1.7B (2048) vs       4B (2560): median best |corr| 0.083 (null 0.021); dims > 0.5: 1%; best match is the same index for 0%; distinct targets 806/2048
+      1.7B (2048) vs       8B (4096): median best |corr| 0.065 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 330/2048
+      1.7B (2048) vs      14B (5120): median best |corr| 0.065 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 512/2048
+      1.7B (2048) vs      32B (5120): median best |corr| 0.065 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 627/2048
+        4B (2560) vs       8B (4096): median best |corr| 0.073 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 1587/2560
+        4B (2560) vs      14B (5120): median best |corr| 0.058 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 670/2560
+        4B (2560) vs      32B (5120): median best |corr| 0.059 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 783/2560
+        8B (4096) vs      14B (5120): median best |corr| 0.059 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 1200/4096
+        8B (4096) vs      32B (5120): median best |corr| 0.059 (null 0.022); dims > 0.5: 0%; best match is the same index for 0%; distinct targets 1386/4096
+       14B (5120) vs      32B (5120): median best |corr| 0.519 (null 0.022); dims > 0.5: 85%; best match is the same index for 100%; distinct targets 5120/5120

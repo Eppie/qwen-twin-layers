@@ -1,0 +1,21 @@
+== 1. sortedness of residual dims (Spearman rho of index vs property)
+  8B    embed col norm -0.010   |gain| -0.003   k/v col norm +0.005
+  4B    embed col norm +0.242   |gain| -0.148   k/v col norm -0.185
+  1.7B  embed col norm -0.014   |gain| -0.037   k/v col norm +0.038
+  0.6B  embed col norm +0.196   |gain| -0.367   k/v col norm +0.398
+  14B   embed col norm +0.004   |gain| +0.000   k/v col norm +0.018
+
+== 2. head-side Gram matrices of k_proj and v_proj: cosine between layers of two models (rotation invariant)
+  4B   vs 8B  : k_proj: matched layers 0.807 (min 0.604), other layer pairs 0.426 | v_proj: matched layers 0.843 (min 0.694), other layer pairs 0.657
+  0.6B vs 1.7B: k_proj: matched layers 0.604 (min 0.560), other layer pairs 0.307 | v_proj: matched layers 0.506 (min 0.356), other layer pairs 0.468
+  4B   vs 1.7B: k_proj: matched layers 0.384 (min 0.247), other layer pairs 0.375 | v_proj: matched layers 0.575 (min 0.470), other layer pairs 0.588
+  4B   vs 14B : k_proj: matched layers 0.452 (min 0.249), other layer pairs 0.425 | v_proj: matched layers 0.651 (min 0.538), other layer pairs 0.659
+  8B   vs 14B : k_proj: matched layers 0.487 (min 0.281), other layer pairs 0.465 | v_proj: matched layers 0.693 (min 0.576), other layer pairs 0.704
+  1.7B vs 8B  : k_proj: matched layers 0.415 (min 0.278), other layer pairs 0.403 | v_proj: matched layers 0.612 (min 0.495), other layer pairs 0.620
+
+== 3. one linear map: ridge-fit P from embeddings, then predict k/v weights
+  8B   -> 4B  : embedding map held-out R^2 (median over dims) 0.007; k_proj predicted via the same map, cosine +0.032; v_proj +0.041  (layers paired by relative depth)
+  1.7B -> 0.6B: embedding map held-out R^2 (median over dims) 0.551; k_proj predicted via the same map, cosine +0.118; v_proj +0.030  (layers paired by relative depth)
+  14B  -> 4B  : embedding map held-out R^2 (median over dims) -0.009; k_proj predicted via the same map, cosine +0.000; v_proj +0.000  (layers paired by relative depth)
+  8B   -> 1.7B: embedding map held-out R^2 (median over dims) 0.021; k_proj predicted via the same map, cosine -0.000; v_proj +0.000  (layers paired by relative depth)
+  14B  -> 8B  : embedding map held-out R^2 (median over dims) -0.017; k_proj predicted via the same map, cosine +0.000; v_proj +0.000  (layers paired by relative depth)

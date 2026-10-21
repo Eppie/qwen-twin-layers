@@ -1,26 +1,41 @@
-# Same-index twin layers in Qwen models
+# Same-index twin layers and model lineages in Qwen checkpoints
 
-Three Qwen checkpoints contain blocks of layers whose weights line up index by index: for a layer i in the
+Five Qwen checkpoints contain blocks of layers whose weights line up index by index: for a layer i in the
 block and its partner i + d, the weights attached to neuron, head or expert j in layer i resemble those of
 the same j in layer i + d, and nothing comparable holds between other pairs of layers. We call such layers
-same-index twins. In Qwen3-32B the alignment extends to a released model: Qwen3-32B lines up index by index
-with Qwen3-14B along the map a width + depth expansion of the 14B would produce.
+same-index twins. The same kind of correspondence links released models to each other: Qwen3-32B lines up
+index by index with Qwen3-14B along the map a width + depth expansion of the 14B would produce, and across
+the Qwen3 family the released weights fall into five lineages.
 
-| Model | Layers | Twin blocks | Offset | Layers without a twin |
+| Model | Layers | Twin blocks | Offsets | Layers without a twin |
 |---|---|---|---|---|
 | Qwen3-32B (dense) | 64 | 8–31 ↔ 32–55 | 24 | 0–7, 56–63 |
+| Qwen3-30B-A3B (MoE, 128 experts) | 48 | 6–17 ↔ 18–29 ↔ 30–41 | 12, 24 | 0–5, 42–47 |
+| Qwen3-235B-A22B (MoE, 128 experts) | 94 | a 20-layer block four times: 10–29, 30–46 (its first 17 layers), 47–63 (its last 17), 64–83 | 14, 20, 34, 54 | 0–9, 84–93 |
 | Qwen3.8-27B (dense FFN, hybrid attention) | 64 + 1 MTP block | 8–23 ↔ 24–39 ↔ 40–55 | 16, 32 | 0–7, 56–63, MTP block 64 |
 | Qwen3.6-35B-A3B (MoE, 256 experts, hybrid attention) | 40 | 8–19 ↔ 20–31 | 12 | 0–7, 32–39 |
 
 "Hybrid attention" means full attention in every fourth layer and linear attention (DeltaNet-style;
-`attn_qkv`, `attn_gate`, `ssm_*` tensors) in the other three. All three offsets are multiples of 4, so
-twins are always the same kind of layer.
+`attn_qkv`, `attn_gate`, `ssm_*` tensors) in the other three. In the two hybrid models the offsets are
+multiples of 4, so twins are always the same kind of layer. Qwen3-0.6B, 1.7B and 4B have no twin layers in
+any matrix; Qwen3-8B and Qwen3-14B show none in their q/k-norm gains (their matrices were not scanned).
+
+**Nothing here is described in any Qwen publication.** Everything below is read off the released weights
+(plus, for a few tests, model activations and losses). Correspondences between weights are measured against explicit
+controls and are established; statements about how and in which order models were derived from one another
+are inferences, labelled as such. In particular, which model of a small pair was derived from which rests on
+circumstantial evidence (channel sortedness, [below](#direction-channel-sortedness-and-the-pruning-reading)).
 
 Contents: [Qwen3-32B and Qwen3-14B](#qwen3-32b-lines-up-with-the-released-qwen3-14b) ·
 [twin layers within each model](#twin-layers-within-each-model) · [follow-up tests](#follow-up-tests) ·
+[loop hypothesis](#was-the-32bs-twin-block-trained-as-a-loop) ·
+[14B in the 32B's family tree](#qwen3-14b-in-the-32bs-family-tree) ·
+[the Qwen3 family map](#the-qwen3-family-map) ·
+[direction of the small-model relations](#direction-channel-sortedness-and-the-pruning-reading) ·
+[14B/32B activations](#qwen3-14b-and-qwen3-32b-activations-share-one-residual-basis) ·
 [what the weights show, and what they do not](#what-the-weights-show-and-what-they-do-not) ·
 [Goodfire's neuron gallery](#twin-neurons-in-goodfires-neuron-gallery) · [reproducing](#reproducing) ·
-[corrections to the first version](#corrections-to-the-first-version)
+[corrections](#corrections-to-earlier-versions)
 
 **Conventions.** Matrix similarities are signed cosines; gain similarities are Pearson r. Unless marked
 otherwise, **± is the standard deviation across layer pairs** (for example across the 24 twin pairs). It
@@ -74,10 +89,10 @@ Qwen3-32B layer (read from the Q8_0 GGUF). A 14B stacked as layers 0–31 follow
 structure lives inside Qwen3-32B, which requires a 14B-shaped ancestor; Qwen3-32B was trained after the
 expansion (its two copies of each layer differ), and the 14B may have been trained further as well, so the
 endpoints cannot say whether the ancestor was the released Qwen3-14B, an earlier checkpoint of it, or a
-sibling trained from the same starting point. Nor do the weights say whether the width or the depth
-expansion came first, or whether both happened at once. We found no Qwen publication that describes any of
-this; the Qwen3 technical report (arXiv:2505.09388) lists Qwen3-32B as a 64-layer model pretrained on 36T
-tokens and says nothing about its initialisation.
+sibling trained from the same starting point. A tree analysis of the 14B and the 32B's copies
+([below](#qwen3-14b-in-the-32bs-family-tree)) favours the 14B being the pre-growth model trained on, over it
+being pruned back out of the grown 32B. Nor do the weights say whether the width or the depth expansion came
+first, or whether both happened at once.
 
 ## Twin layers within each model
 
@@ -432,19 +447,325 @@ C_BC > C_AB = C_AC.
   simple history fits the matrices without copy-specific shrinkage, the gains favour extra B–C history, and
   endpoint covariances do not identify the history.
 
+## Was the 32B's twin block trained as a loop?
+
+A suggestion made in a LessWrong comment: Qwen trained a looped transformer (one weight-shared block applied repeatedly),
+fixed the loop count at 2 and then untied the weights, which would also leave two untied copies of a block.
+That history and plain stacking differ only in whether the shared block was trained tied before the split.
+Qwen3-32B's weights are all post-split, so both tests use the released Qwen3-14B, whose weights correspond to
+the 32B's index by index. Scripts and pre-registration are in `loop_hypothesis/`, outputs in
+`results/loop_hypothesis/`.
+
+**Where the split state sits** (`star_decomposition.py`). Three-leaf star: T = Qwen3-14B layer p, L = 32B
+layer p (lower copy), U = 32B layer p + 24 (upper copy), p = 8–31. If all three descend from one state S by
+independent drifts, cos(X, Y) = s_X s_Y, so with a = cos(T, L), b = cos(T, U), c = cos(L, U):
+s_T = √(ab/c), s_L = √(ac/b), s_U = √(bc/a). Medians over p = 8–31:
+
+| Tensor | s_T (14B vs split state) | s_L (lower copy) | s_U (upper copy) |
+|---|---|---|---|
+| k_proj | 0.89 (range 0.74–0.93) | 0.32 | 0.90 |
+| v_proj | 0.95 (0.80–0.97) | 0.53 | 0.93 |
+| gate_proj, neurons 0–511 | 0.84 (0.73–0.86) | 0.34 | 0.73 |
+| up_proj, neurons 0–511 | 0.85 (0.75–0.89) | 0.33 | 0.71 |
+
+The split state is close to the released 14B in every layer and tensor, least close at the bottom of the
+block (p = 8–12: s_T 0.73–0.88) and closer from p = 16 up (0.82–0.97). a and b come from the 14B-vs-32B cosines
+in `results/native/qwen3_14b_parent_bf16.npz`, c from the GGUF over the same rows. If the 14B lineage was the
+starting point, any tied phase moved the block much less than the untied training after the split did. This
+does not exclude a looped model from which both the 14B and the 32B were later derived.
+
+**Does the 14B tolerate running a block twice?** (`loop_tolerance.py`; prediction in
+`loop_hypothesis/predictions.md`, written before running.) Layer modules are reused, not copied: layers 0 to
+s + 23, then s to s + 23 again, then s + 24 to 39 (64 layers, like the 32B). 24 held-out sequences of 512
+tokens (8 English web, 8 multilingual, 8 code); baseline NLL 1.744 nats/token. ΔNLL with bootstrap 95%
+interval over sequences:
+
+| Window applied twice | ΔNLL | | Window applied three times | ΔNLL |
+|---|---|---|---|---|
+| 0–23 | +2.87 [2.36, 3.40] | | 0–23 | +4.57 [3.98, 5.11] |
+| 2–25 | +3.86 [3.16, 4.57] | | 8–31 | +0.43 [0.34, 0.52] |
+| 4–27 | +3.28 [2.91, 3.62] | | 16–39 | +1.87 [1.59, 2.13] |
+| 6–29 | +0.14 [0.10, 0.18] | | | |
+| **8–31** (the 32B's twin block) | **+0.15 [0.11, 0.19]** | | | |
+| 10–33 | +0.18 [0.15, 0.22] | | | |
+| 12–35 | +0.16 [0.13, 0.20] | | | |
+| 14–37 | +0.14 [0.11, 0.17] | | | |
+| 16–39 | +0.79 [0.64, 0.94] | | | |
+
+Pre-registered loop signature: ΔNLL(8–31) < 0.15 **and** < half the mean of the neighbouring windows 6–29 and
+10–33. The first part is met (0.147); the second is not (the neighbours give 0.137 and 0.183, half their mean
+is 0.080). There is no dip at 8–31: every window starting at layers 6–14 costs about the same (+0.14 to
++0.18), windows that include layers 0–5 are catastrophic, and the window that includes the last layers costs
++0.79.
+
+**Result: no support for the loop hypothesis.** The 14B tolerates duplicating any middle window about equally,
+so the low cost of repeating 8–31 is a property of its middle layers, not a mark of looped training on that
+block; 8–31 is a wide window that avoids the fragile first six and last few layers, which is what a stacking
+recipe would pick. The width copies (duplicated FFN neurons and query heads) show that an explicit copying
+step was used anyway, and copying layers is the same operation. Not excluded: a short tied phase after
+copying, or a looped common ancestor of the 14B and the 32B whose loop tolerance the 14B later lost (the
+caveat stated with the prediction). The data give no positive support for either.
+
+## Qwen3-14B in the 32B's family tree
+
+Two histories fit the index alignment between Qwen3-14B and Qwen3-32B (distillation into a fresh network does
+not, because it would not preserve neuron indices):
+
+- (a) the 14B is the pre-growth (14B-shaped) model, trained on; the 32B was grown from it;
+- (b) the 32B was grown and trained, then the 14B was pruned back out of it (dropping duplicate layers,
+  neurons and heads) and trained on.
+
+Predictions and known confounds were written down before running (`loop_hypothesis/phylogeny_predictions.md`).
+
+**Five-taxon trees** (`phylogeny.py`, `tree_fit.py`; `results/loop_hypothesis/phylogeny.txt`, `tree_fit.txt`).
+For each width-copied unit j (FFN neurons j < 8,192: gate rows, up rows, down columns; query heads 0–2 of each
+KV group: q rows, o columns) and block layer p = 8–31, five taxa: T (14B unit j), Lj and Uj (32B unit j at
+layers p and p + 24), Lc and Uc (its width copy at p and p + 24). Distance d = −log cos over all such units;
+all 15 unrooted five-leaf topologies are fitted by non-negative least squares.
+
+- At the bottom of the block the best tree in all five tensor families is ((Lj,Lc),T,(Uj,Uc)): the 14B sits
+  at the centre, between the lower-copy pair and the upper-copy pair. This holds for p = 8–10 in every
+  family and up to p = 11 (up), 12 (gate, o) or 13 (q).
+- Above that, up to p = 31, the best tree is ((T,Uj),Uc,(Lj,Lc)): the 14B groups with the same-index unit of
+  the upper copy, with a shared branch of 0.02–0.26 (mostly 0.1–0.2); the runner-up swaps Uj for Uc at a
+  slightly worse fit (one exception, o at p = 19, where that runner-up fits marginally better). The fits
+  are only roughly tree-like: residuals (0.04–0.66) are comparable to the internal edges.
+- Lj and Lc pair up in every best tree. As stated in advance, same-layer copies receive nearly identical
+  gradients and co-adapt, so this says little about whether width or depth grew first.
+
+Against the pre-registered predictions: (b) predicted a clear {T, Uj} grouping across the whole block
+including p = 8–10; it is absent at p = 8–10 in every family. (a) predicted that T never groups with a single
+depth copy; it does from p = 11–14 up. The pre-registration named this pattern, a {T, Uj} grouping only above
+the bottom of the block, as the signature of convergence: away from the seam the upper copy has the same
+neighbours as the 14B (32B layers 56–63 are copies of 14B layers 32–39), so the two can drift in correlated
+ways.
+
+**The 14B's own drift across all 40 layers** (`drift_profile.py`; not pre-registered). Per 14B layer, a
+three-leaf star of the 14B unit j, the 32B unit j and its width copy (using the 32B copy closer to the 14B);
+dT = −log s_T is the 14B's distance from the point where the 32B's two width copies split. (b) suggests a
+spike at the 14B's internal seam (layers 8–11, re-adapting after pruning) that layers 0–7 do not share.
+
+| 14B layers | gate | up | down | q | o |
+|---|---|---|---|---|---|
+| 0–7 | 0.18–0.57 | 0.23–0.65 | 0.18–0.56 | 0.36–0.75 | 0.44–0.56 |
+| 8–11 | 0.36–0.51 | 0.33–0.44 | 0.23–0.34 | 0.67–0.79 | 0.28–0.63 |
+| 12–15 | 0.05–0.28 | −0.01–0.23 | −0.03–0.15 | 0.20–0.54 | 0.00–0.28 |
+| 16–39 | ≤ 0.01 | ≤ −0.04 | ≤ −0.06 | ≤ 0.15 | ≤ −0.01 |
+
+Layers 8–11 lie within the range of layers 0–7 in every family, but that range is widened by layer 0; against
+layers 1–7 alone, layers 8–9 are higher for gate (0.36 and 0.51 against 0.18–0.29) and at the top of the range
+for up, down and q. We read this as no clear seam-specific spike, not as a clean null. The main pattern is a
+depth trend: the 14B is farther from the split point in its lower third and sits at (negative values: beyond,
+i.e. the star is not additive there) the split point from about layer 16 up, including layers 32–39, which
+were never duplicated in depth.
+
+**Reading (inference).** Favoured: (a), the 14B continued from the pre-growth model. At the bottom of the
+block the 14B attaches at the centre of the tree, where the pre-growth parent should sit; the {T, Uj} grouping
+appears only where the pre-registered convergence confound applies; and in the upper layers the 14B sits at
+the split point of the 32B's width copies. (b) is distinguishable only if the 32B trained substantially before
+the 14B was cut out of it, which would leave a long branch shared by the 14B and one 32B copy; none is found
+beyond the short, not robust one in the upper layers. A variant in which the 14B was cut out immediately after
+growth is practically the same as (a). Not determined: whether width or depth grew first, and whether the
+14B's lower layers moved after the branch point or the 32B's lower layers moved in a correlated way.
+
+## The Qwen3 family map
+
+Scripts in `family/`, outputs in `results/family/`. Local BF16 checkpoints: Qwen3-0.6B, 1.7B, 4B, 14B;
+Qwen3-32B from the Q8_0 GGUF; Qwen3-8B, Qwen3-30B-A3B and Qwen3-235B-A22B tensors fetched with HTTP range
+requests (revisions under [Reproducing](#the-qwen3-family-family)).
+
+### Twin blocks in the other Qwen3 models
+
+- **Qwen3-0.6B, 1.7B, 4B** (`analyze_small.py twins|width`, every matrix, every pair of layers): no twin
+  layers. The largest same-index cosine between any two layers is at most 0.006 for q, k, v, o, up and down
+  projections; gate_proj reaches 0.009–0.028, between nearby layers (Qwen3-32B shows the same for gate rows at
+  non-twin pairs). No fixed-offset neuron copies; a few query heads within a KV group resemble each other
+  (best-match cosine up to 0.45).
+- **Qwen3-8B, Qwen3-14B**: no twin structure in the q/k-norm gains (`qknorm_within.py`; the four best offsets
+  have mean r of at most 0.09 and no pair above 0.5). In Qwen3-32B the same scan finds offset +24 with all 24 pairs 8–31 ↔ 32–55
+  above 0.5, so the gains alone recover a known twin block.
+- **Qwen3-30B-A3B** (48 layers): layers 6–17, 18–29 and 30–41 are three copies of one 12-layer block; layers
+  0–5 and 42–47 are unique. The parent this implies has 24 layers (6 + 12 + 6). This confirms the observation
+  by Maciej Kilian, who saw the same expert index highly active 12 and 24 layers apart in Qwen3-30B-A3B's
+  router statistics and asked whether Qwen3 used depth-wise upcycling
+  (https://x.com/kilian_maciej/status/1982612297874026731).
+- **Qwen3-235B-A22B** (94 layers): layers 0–9 and 84–93 are unique; a 20-layer block (parent layers 10–29 of
+  a 40-layer parent) appears as 10–29, 30–46 (parent 10–26), 47–63 (parent 13–29) and 64–83 (parent 10–29),
+  giving 102 twin pairs.
+
+Matrix-level check (`moe_matrix_twins.py`: k_proj, v_proj and router of every layer; twin pairs are the pairs
+whose mean of the three cosines exceeds 0.05, which picks out exactly 36 and 102 pairs, i.e. the block structure
+above):
+
+| | k_proj, twins / other pairs | v_proj | router, expert-centred | router, raw |
+|---|---|---|---|---|
+| Qwen3-30B-A3B (36 twin pairs) | 0.475 / 0.0001 ± 0.0021 | 0.675 / 0.0000 ± 0.0010 | 0.807 / −0.0001 ± 0.0101 | 0.839 / 0.37 ± 0.10 |
+| Qwen3-235B-A22B (102 twin pairs) | 0.508 / −0.0000 ± 0.0016 | 0.722 / −0.0000 ± 0.0009 | 0.823 / 0.0007 ± 0.0076 | 0.871 / 0.33 ± 0.13 |
+
+Twin values are means (minima 0.26–0.71); the largest non-twin value is 0.018 for k_proj and v_proj and 0.040
+for the centred router. Router rows are experts, so the router match is expert by expert. In Qwen3-30B-A3B the
+closest pair of copies is 18–29 ↔ 30–41 and the most distant 6–17 ↔ 30–41 (for example layer 18 with 30:
+k 0.53, v 0.81, router 0.86; layer 6 with 18: 0.39, 0.67, 0.79; layer 6 with 30: 0.28, 0.60, 0.71), the same
+ordering as in Qwen3.8-27B.
+
+Expert-level check (`moe_experts.py`: whole experts, gate, up and down, at twin layers and one adjacent
+non-twin control layer):
+
+- Qwen3-30B-A3B, layers 6, 18, 30 (control 7), experts 0, 37, 85, 120: the same expert across twin layers
+  has cosine 0.22–0.37 for three experts and 0.07–0.13 for expert 120; different experts at most 0.008; the
+  same expert against the control layer at most 0.005. Per neuron (layers 6 and 18), the same neuron index
+  has median cosine 0.27–0.29 (0.09 for expert 120) against 0.000–0.007 with neurons shuffled.
+- Qwen3-235B-A22B, layers 13, 33, 47, 67 (control 14), experts 5 and 77: same expert 0.295–0.415, other
+  experts at most 0.003, control at most 0.001; same neuron index median 0.295–0.318 (shuffled 0.002).
+
+So in both MoEs the experts, and the neurons inside them, kept their indices across the copies, as in
+Qwen3.6-35B-A3B.
+
+### Relations between models
+
+All Qwen3 models use 128-dimensional q/k-norm gains, so these can be compared across models of any width
+(`qknorm_screen.py`): each model's gain vectors are centred on that model's mean profile and every layer of
+one model is correlated with every layer of another (mean of the q and k correlations).
+
+| Pair | Median best r | Layer map |
+|---|---|---|
+| 0.6B ↔ 1.7B | 0.98 | p ↔ p for all 28 layers (min 0.91) |
+| 4B ↔ 8B | 0.99 | p ↔ p for all 36 layers (min 0.96) |
+| 14B ↔ 32B | 0.99 | p ↔ p (p ≤ 9) or p + 24 (p ≥ 10); both copies match in 8–31 (min 0.98) |
+| every other pair, including both MoEs against every dense model and against each other | 0.18–0.29 | none |
+
+The null (one model's channels shuffled) is 0.12–0.16. Residual dimensions can also be matched through
+embedding columns, since all Qwen3 models share a tokenizer (`analyze_small.py embed`, first 30,000 tokens;
+null 0.02):
+
+- 14B ↔ 32B: median best |corr| 0.52, and the best match is the same index for 100% of dimensions: one
+  residual basis.
+- 0.6B ↔ 1.7B: 0.26, mapping onto 1,008 distinct 1.7B dimensions out of 1,024, never at the same index: a
+  reshuffled subset.
+- 4B ↔ 8B: 0.07, no dimension-wise correspondence; see the next section for why.
+- All pairs from different groups: 0.06–0.09.
+
+**Lineages.** The released Qwen3 weights fall into five groups with no detectable relation between groups:
+{0.6B, 1.7B}, {4B, 8B}, {14B, 32B}, {30B-A3B}, {235B-A22B}. Within each group the weights correspond layer by
+layer; between groups nothing measured here exceeds the unrelated-pair level. "No detectable relation" is a
+statement about these measurements: models trained from different initialisations, or related through a
+transformation these tests cannot see, would look the same.
+
+### The 0.6B ↔ 1.7B map
+
+`pair_06_17.py` maps each 0.6B residual dimension d to the 1.7B dimension π(d) (with sign) whose embedding
+column correlates best, fitted on tokens 0–14,999. On held-out tokens 15,000–29,999 the same partner is the
+best match for 99% of dimensions. The map then aligns quantities it was not fitted to:
+
+- per-dimension norm gains: r = 0.84 (input_layernorm, median over layers), 0.90 (post_attention_layernorm),
+  0.91 (final norm); with π shuffled, −0.01;
+- attention weights with residual columns remapped (head channels are 8 KV × 128 and 16 Q × 128 in both
+  models): same-row cosine at the same layer, median over layers, k_proj 0.17, q_proj 0.14, v_proj 0.04,
+  o_proj 0.03; against another layer or with π shuffled, 0.000;
+- FFN neurons (gate and up rows remapped): each 0.6B neuron's best 1.7B match has median cosine 0.10–0.20
+  (second best 0.08–0.09), the down column agrees at that match (0.10–0.20), and the matches are nearly
+  one to one (2,667–3,003 distinct partners for 3,072 neurons).
+
+π is not monotone (Spearman ρ between d and π(d): −0.01): the dimensions were reordered, not merely
+subsetted.
+
+### The 4B ↔ 8B relation
+
+The 4B and 8B have no dimension-wise residual correspondence, but they are related by one linear map of the
+residual stream (`pair_4_8.py`, `weight_map.py`, `embed_origin.py`):
+
+- Head-side Gram matrices W Wᵀ of k_proj and v_proj (unchanged by any orthogonal map of the residual stream):
+  matched layers 0.81 (k) and 0.84 (v) against 0.43 and 0.66 for other layer pairs. Unrelated pairs (4B vs
+  1.7B or 14B, 8B vs 14B, 1.7B vs 8B) show no matched-layer excess (for example 4B vs 14B: 0.45 vs 0.43,
+  0.65 vs 0.66). 0.6B vs 1.7B: 0.60 vs 0.31 (k), 0.51 vs 0.47 (v).
+- One linear map Q (4B residual = Q · 8B residual) fitted by ridge regression on the k/v weights of five
+  paired layers predicts the k/v weights of the other five at median cosine 0.31 (0.13–0.46). The same
+  procedure gives 0.000 (|values| ≤ 0.001) for all four unrelated pairs. For the related 0.6B → 1.7B pair it
+  gives only 0.03 (0.015–0.16); that pair's relation is shown more directly by the permutation map above.
+- A map fitted on embeddings instead (4B embeddings regressed on 8B input embeddings) does not generalise
+  (held-out R² 0.007, k/v cosine 0.03–0.04), while for 0.6B/1.7B it does (R² 0.55). The next point explains
+  the difference.
+- Through Q (fitted on all ten paired layers), the 4B's tied embedding table matches the 8B's output head
+  (lm_head): median per-token cosine 0.42, 100% (rounded) of the first 30,000 tokens above 0.2, shuffled tokens
+  0.008. It does not match the 8B's input embeddings (0.075, no token above 0.2). Qwen3-4B ties its input and
+  output embeddings; Qwen3-8B does not, and its two tables are unrelated (median cosine 0.004).
+
+## Direction: channel sortedness and the pruning reading
+
+Weight correspondences are symmetric: they show that two models are related, not which came from which.
+`sortedness.py` and part 1 of `pair_4_8.py` test a property that can carry direction. Random initialisation
+is symmetric under permutations of residual dimensions and FFN neurons, so a model trained from scratch has
+no reason for its channel order to track any per-channel property. Structured pruning that ranks channels by
+an importance score and keeps the top ones in rank order leaves the kept channels sorted.
+
+Spearman ρ between channel index and per-channel properties (residual dimensions: embedding column norm,
+mean |input_layernorm gain|, input-column norm of the attention projections; FFN neurons: gate-row, up-row and
+down-column norm, median over sampled layers):
+
+| Model | Residual dimensions | FFN neurons |
+|---|---|---|
+| Qwen3-0.6B | +0.20, −0.37, +0.76 (q/k/v; k/v only: +0.40) | +0.40, +0.49, +0.51 |
+| Qwen3-1.7B | −0.01, −0.04, +0.04 | −0.01, −0.00, −0.01 |
+| Qwen3-4B | +0.24, −0.15, +0.31 (q/k/v; k/v only: −0.19) | −0.02, +0.18, +0.38 |
+| Qwen3-8B | −0.01, −0.00, +0.01 (k/v) | not measured |
+| Qwen3-14B | +0.00, +0.00, +0.01 | +0.01, +0.00, +0.01 |
+| Qwen3-32B | +0.02, +0.00, +0.01 | −0.09, −0.22, −0.10 |
+
+The smaller member of each small lineage is sorted and the larger is not. In addition, the 0.6B's dimension
+order tracks properties of the matched 1.7B dimensions (`pair_06_17.py`, part 4): Spearman ρ between the 0.6B
+index d and the 1.7B importance rank of π(d) is −0.88 for the q/k/v input-column norm and +0.62 for the gain,
+and the 1.7B dimensions that have a 0.6B partner differ systematically from those that do not (median
+importance rank 1,518 vs 624 of 2,048 by q/k/v column norm, 758 vs 1,096 by gain). The Qwen3-32B's FFN
+values come from norm steps at the width-copy boundaries (neurons 8,192 and 17,408): within each of the three
+segments |ρ| ≤ 0.03 (a side check on ffn_up in layers 0, 10, …, 60, not in the committed outputs).
+
+**Reading (inference).** Qwen3-0.6B was cut from a 1.7B-like model by importance-ranked width pruning (same
+depth and heads, a reordered subset of residual dimensions and FFN neurons), and Qwen3-4B from an 8B-like model,
+through a linear mixing of the residual stream rather than a subset, with its tied embedding table taken from
+the 8B's output head. Within the {14B, 32B} lineage the direction is the opposite, growth: the 32B's copies
+require a 14B-shaped ancestor. This direction claim for the small models is circumstantial. Sortedness is what
+ranked pruning leaves behind, but another process that orders channels (or a deliberate reordering) would leave
+it too, and nothing here identifies the checkpoints involved: as with the 14B and the 32B, the larger released
+model may itself have trained on after the smaller one was derived from an earlier state of it.
+
+## Qwen3-14B and Qwen3-32B activations share one residual basis
+
+`acts_14_32.py` compares the residual streams of the two models on the same 36 held-out texts (24 English web,
+12 mixed; 10,179 tokens). The 32B's residual stream after each of its 64 layers was dumped with llama.cpp from
+the Q8_0 GGUF; the 14B (BF16, transformers) runs on exactly the same token ids. For every 14B layer p and 32B
+layer m: Pearson r of residual dimension d with the same dimension d of the other model, across tokens,
+median over dimensions.
+
+- The best-matching 32B layer for every one of the 40 14B layers is a predicted one: p for p ≤ 11, p + 24 for
+  12 ≤ p ≤ 31 (the upper copy), p + 24 for p ≥ 32. At those layers r = 0.41–0.74; with dimensions shuffled,
+  |r| ≤ 0.004; the median over all 32B layers is 0.08–0.31.
+- For 14B layers 8–31 the switch from the lower copy (best for p ≤ 11) to the upper copy (best from p = 12)
+  matches the weights, where the upper copy is the closer one from p ≈ 10–11.
+- For each 14B dimension, the most correlated 32B dimension is the same index for 93–100% of dimensions at the
+  predicted layer pairs tested. This also holds at a non-predicted pair (14B layer 20 vs 32B layer 30: 86%),
+  because the residual stream keeps its coordinates through depth; the shared basis itself is therefore not
+  layer-specific, while the r profile across layers is.
+
+So the index alignment of the weights carries over to the activations: the two models compute in the same
+residual coordinates, layer for layer along the expansion map.
+
 ## What the weights show, and what they do not
 
-**Established by the weights: the twins share an origin, and Qwen3-32B shares one with Qwen3-14B.** The
-order of neurons, heads and experts within a layer is arbitrary: permuting them consistently across the
-layer's matrices gives an equivalent network. Layers initialised independently therefore have no reason to
-line up index by index, and non-twin pairs sit where unrelated vectors do (Qwen3-32B native weights, eight
-control pairs: below 0.0011 in absolute value for six of the seven matrix families, 0.0025–0.0070 for
-`ffn_gate`). The twin pairs are far outside that range for every attention, linear-attention projection,
-FFN and expert matrix: in fresh row samples as well as the original one, in the native BF16 weights, neuron
-by neuron and expert by expert, and, for the Qwen3-32B FFNs, in activations on identical inputs. The same
+**Established by the weights: twins share an origin, and so do the members of each lineage.** The order of
+neurons, heads and experts within a layer is arbitrary: permuting them consistently across the layer's
+matrices gives an equivalent network. Layers initialised independently therefore have no reason to line up
+index by index, and non-twin pairs sit where unrelated vectors do (Qwen3-32B native weights, eight control
+pairs: below 0.0011 in absolute value for six of the seven matrix families, 0.0025–0.0070 for `ffn_gate`).
+The twin pairs are far outside that range for every attention, linear-attention projection, FFN and expert
+matrix: in fresh row samples as well as the original one, in the native BF16 weights, neuron by neuron and
+expert by expert, and, for the Qwen3-32B FFNs, in activations on identical inputs. The same holds in the
+MoE models Qwen3-30B-A3B and Qwen3-235B-A22B for k_proj, v_proj, the router and whole experts. The same
 argument applies between models: Qwen3-14B and Qwen3-32B line up index by index exactly where a width and
 depth expansion of a 14B-shaped network predicts, at cosines 0.11–0.93, and nowhere else (at most 0.003;
-`gate_proj` 0.032).
+`gate_proj` 0.032), and their activations share one residual basis. Qwen3-0.6B and Qwen3-1.7B are related by
+a permutation (with signs) of residual dimensions and neurons, and Qwen3-4B and Qwen3-8B by a linear map of the
+residual stream, both checked on quantities the maps were not fitted to. Across lineages nothing measured
+here rises above the unrelated-pair level.
 
 The correspondence is broad but not uniform: it is weaker at the block ends, for the Qwen3.8-27B
 8–23 ↔ 40–55 relation, for the Qwen3-32B width-copy neurons, and for a minority of routed experts.
@@ -468,18 +789,35 @@ overlap and the result is trained further. The twin positions match that recipe:
 
 - Qwen3-32B = layers 0–31 followed by layers 8–39 of a 40-layer parent, widened (FFN 17,408 → 25,600 by
   copying neurons 0–8,191; 40 → 64 query heads by duplicating three heads per KV group). The released
-  Qwen3-14B has that shape and lines up with it.
+  Qwen3-14B has that shape and lines up with it; the [family-tree analysis](#qwen3-14b-in-the-32bs-family-tree)
+  favours the 14B being that parent trained on, over it being pruned back out of the 32B.
+- Qwen3-30B-A3B = layers 0–17 of a 24-layer parent, then its layers 6–17 twice more, then layers 18–23
+  (parent layer k, 6 ≤ k ≤ 17, appears at k, k + 12 and k + 24).
+- Qwen3-235B-A22B = a 40-layer parent whose layers 10–29 appear four times, two of the copies partial (see
+  the table at the top).
 - Qwen3.6-35B-A3B = layers 0–19 followed by layers 8–27 of a 28-layer parent (parent layer k, 8 ≤ k ≤ 19,
-  appears at positions k and k + 12). This parent is hypothetical; no released model was compared.
+  appears at positions k and k + 12).
 - Qwen3.8-27B: a 16-layer block appears three times, with partial width copies (parent FFN width 12,288).
-  The parent is hypothetical. The covariances do not decide between one triple copy and two successive
-  copies (see [triple covariances](#qwen38-27b-triple-covariances)).
+  The covariances do not decide between one triple copy and two successive copies (see
+  [triple covariances](#qwen38-27b-triple-covariances)).
+
+For the four models other than Qwen3-32B the block structure is known but the parent is not: no released
+checkpoint was found that corresponds to it (for the two original Qwen3 MoEs, no other released Qwen3 model
+matches them in the q/k-norm screen). The loop hypothesis (a weight-shared block trained looped, then untied)
+was tested for Qwen3-32B and found [no support](#was-the-32bs-twin-block-trained-as-a-loop).
 
 Other histories are not excluded by the weights. A block whose weights were tied during training and later
 untied produces the same endpoint pattern as a copy. Identical random initialisation of the blocks (for
 example one seed per pipeline stage) followed by training is harder to reconcile with the identical
 dead-unit sets, and for Qwen3-32B it would also require the 14B and the 32B to have started from the same
 weights laid out along the expansion map; the weights alone still cannot rule it out.
+
+**Inferred, on circumstantial evidence: the small dense models were pruned from larger ones.** The smaller
+member of each small lineage has channels sorted by per-channel properties and the larger does not, which is
+what importance-ranked pruning leaves; on that basis Qwen3-0.6B came from a 1.7B-like model and Qwen3-4B from
+an 8B-like model (through a linear mix of the residual stream, with its tied embeddings taken from the 8B's
+output head). See [direction](#direction-channel-sortedness-and-the-pruning-reading) for what this does not
+rule out.
 
 **Not recoverable from the weights.**
 
@@ -489,15 +827,17 @@ weights laid out along the expansion map; the weights alone still cannot rule it
   and an untied model that reach the same parameters and optimiser state have identical subsequent
   trajectories.
 - Which checkpoint was expanded into Qwen3-32B (the released Qwen3-14B, an earlier checkpoint of it, or a
-  sibling), and whether width or depth grew first.
+  sibling), and whether width or depth grew first; likewise which checkpoints the small models were cut from.
+- The parent checkpoints of Qwen3-30B-A3B, Qwen3-235B-A22B, Qwen3.6-35B-A3B and Qwen3.8-27B.
 - The copying history of Qwen3.8-27B (see above).
 
-**No public account.** We found no Qwen publication that describes this. The Qwen3 technical report
-(arXiv:2505.09388) lists Qwen3-32B as a 64-layer model pretrained on 36T tokens and says nothing about how
-it was initialised. A related public observation: Maciej Kilian asked on X whether Qwen3 uses depth-wise
-upcycling, after seeing the same expert index highly active 12 and 24 layers apart in Qwen3-30B-A3B's
-router statistics (https://x.com/kilian_maciej/status/1982612297874026731). Qwen3-30B-A3B was not
-examined here.
+**No public account.** We found no Qwen publication that describes any of this. The Qwen3 technical report
+(arXiv:2505.09388) lists Qwen3-32B as a 64-layer model pretrained on 36T tokens; we found no description
+there of how it or the other models were initialised. A related public
+observation: Maciej Kilian asked on X whether Qwen3 uses depth-wise upcycling, after seeing the same expert
+index highly active 12 and 24 layers apart in Qwen3-30B-A3B's router statistics
+(https://x.com/kilian_maciej/status/1982612297874026731). The weights confirm it: Qwen3-30B-A3B repeats a
+12-layer block three times (from a 24-layer parent), with experts and their neurons in place.
 
 ## Twin neurons in Goodfire's neuron gallery
 
@@ -522,12 +862,14 @@ so the chance baseline is indicative only; the pre-registered functional test
 
 ## Reproducing
 
-Requirements: Python 3 with `numpy` and `gguf` (the GGUF reader from llama.cpp, published on PyPI) for
-everything except the two model scripts in `native/`, which also need `torch` and `transformers`.
+Requirements: Python 3 with `numpy` and `gguf` (the GGUF reader from llama.cpp, published on PyPI) for the
+weight scripts; `scipy` for `loop_hypothesis/tree_fit.py` and three scripts in `family/`; `torch` and
+`transformers` for the scripts that run models (`native/functional_2x2.py`, `native/gain_reset_gradients.py`,
+`loop_hypothesis/loop_tolerance.py`, `family/acts_14_32.py`, `family/dump_residuals_hf.py`).
 `gallery_twins.py` uses only the standard library.
 
 ```
-pip install gguf numpy
+pip install gguf numpy scipy
 ```
 
 Models (SHA-256 of the GGUF files used):
@@ -634,6 +976,90 @@ ten languages, English web and Wikipedia, GitHub code, open-web-math, UltraChat)
 files used are not included, so a re-run with other text will give somewhat different numbers. The saved
 outputs are in `results/native/`; these scripts were not re-run for this version of the repository.
 
+### Loop hypothesis and family tree (`loop_hypothesis/`)
+
+```
+python3 loop_hypothesis/star_decomposition.py Qwen3-32B-Q8_0.gguf results/native/qwen3_14b_parent_bf16.npz \
+    results/loop_hypothesis/star_decomposition.csv > results/loop_hypothesis/star_decomposition.txt
+python3 loop_hypothesis/phylogeny.py Qwen3-14B Qwen3-32B-Q8_0.gguf results/loop_hypothesis
+python3 loop_hypothesis/tree_fit.py results/loop_hypothesis/phylogeny.json > results/loop_hypothesis/tree_fit.txt
+python3 loop_hypothesis/drift_profile.py Qwen3-14B Qwen3-32B-Q8_0.gguf results/loop_hypothesis
+python3 loop_hypothesis/loop_tolerance.py Qwen3-14B results/loop_hypothesis WEB.txt MIXED.txt CODE.txt
+```
+
+`Qwen3-14B` is the BF16 checkpoint (`hf download Qwen/Qwen3-14B --revision
+40c069824f4251a91eefaf281ebe4c544efd3e18 --local-dir Qwen3-14B`, 30 GB). `tree_fit.py` needs `scipy`.
+`phylogeny.py` (70 s, 2.8 GB peak) and `drift_profile.py` (95 s, 2.4 GB) read only the rows they need;
+`phylogeny.py` is a faster reimplementation of the memory-mapped script that produced the committed
+`phylogeny.txt`, and reproduces it byte for byte. `loop_tolerance.py` runs the BF16 14B on a GPU (Apple MPS
+by default, `TORCH_DEVICE` to change; torch 2.13.0, transformers 5.20.2), reading documents from fixed offsets
+of text files as described for `native/` below; it was not re-run for this repository.
+
+### The Qwen3 family (`family/`)
+
+The scripts read local BF16 checkpoints from `QWEN_HF_DIR` (subdirectories `Qwen3-0.6B`, `Qwen3-1.7B`,
+`Qwen3-4B`, `Qwen3-14B`; default the current directory) and the Qwen3-32B GGUF from `GGUF_32B` (default
+`$GGUF_DIR/Qwen3-32B-Q8_0.gguf`). Qwen3-8B, Qwen3-30B-A3B and Qwen3-235B-A22B are not downloaded: the
+tensors needed (about 4 GB as float32 in total) are fetched with HTTP range requests and cached in
+`FAMILY_CACHE` (default `family/cache/`, not committed); the scripts that use them run offline once the cache
+is filled. Revisions:
+
+| Model | Source | Revision |
+|---|---|---|
+| Qwen3-0.6B | local BF16 | c1899de289a04d12100db370d81485cdf75e47ca |
+| Qwen3-1.7B | local BF16 | 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e |
+| Qwen3-4B | local BF16 | 1cfa9a7208912126459214e8b04321603b3df60c |
+| Qwen3-14B | local BF16 | 40c069824f4251a91eefaf281ebe4c544efd3e18 |
+| Qwen3-32B | Q8_0 GGUF (above) | |
+| Qwen3-8B | range requests, `main` | b968826d9c46dd6066d109eabc6255188de91218 |
+| Qwen3-30B-A3B | range requests, `main` | ad44e777bcd18fa416d9da3bd8f70d33ebb85d39 |
+| Qwen3-235B-A22B | range requests, `main` | 8efa61729e24bd65b1d152b5ab5409052aa80e65 |
+
+```
+export QWEN_HF_DIR=/path/to/checkpoints GGUF_32B=/path/to/Qwen3-32B-Q8_0.gguf
+H=$QWEN_HF_DIR; R=results/family
+for m in Qwen3-0.6B Qwen3-1.7B Qwen3-4B; do
+  python3 family/analyze_small.py twins $H/$m > $R/twins_$m.txt
+  python3 family/analyze_small.py width $H/$m > $R/width_$m.txt
+done
+python3 family/analyze_small.py embed 0.6B=$H/Qwen3-0.6B 1.7B=$H/Qwen3-1.7B 4B=$H/Qwen3-4B \
+    8B=hf:Qwen/Qwen3-8B 14B=$H/Qwen3-14B 32B=$GGUF_32B > $R/embed_pairs.txt
+python3 family/qknorm_screen.py > $R/qknorm_screen.txt
+python3 family/qknorm_within.py > $R/qknorm_within.txt            # reads the gains cached by qknorm_screen.py
+python3 family/moe_matrix_twins.py Qwen/Qwen3-30B-A3B Qwen/Qwen3-235B-A22B > $R/moe_matrix_twins.txt
+python3 family/moe_experts.py > $R/moe_experts.txt
+python3 family/pair_06_17.py > $R/pair_06_17.txt
+python3 family/sortedness.py > $R/sortedness.txt
+python3 family/pair_4_8.py > $R/pair_4_8.txt                      # reuses the embedding slices cached by `embed`
+python3 family/weight_map.py > $R/weight_map.txt
+python3 family/embed_origin.py > $R/embed_origin.txt
+```
+
+Each of these takes seconds to a few minutes on a CPU once the tensors are local or cached (at most 13 GB
+resident, for `sortedness.py`); `pair_4_8.py`, `sortedness.py` and `pair_06_17.py` need `scipy`. All of them were
+re-run from this repository (Python 3.14.6, numpy 2.5.4, gguf 0.19.0, scipy 1.18.1) against a copy of the
+cache of range-fetched tensors, with the cached q/k-norm gains and embedding slices of the local models deleted
+so that those were recomputed from the checkpoints. Every output reproduced the committed one byte for byte,
+except that `moe_matrix_twins.py` prints its "fetched ..." lines only when it fetches (the committed file comes
+from the cached run and adds the twin vs non-twin summary at the end of each model).
+
+**Activations** (`acts_14_32.py`; not re-run for this repository). The committed numbers come from a 32B
+residual-stream dump made with llama.cpp from the Q8_0 GGUF by a private tool that is not included. The same
+`.bin` / `.idx` format (documented in `acts_14_32.py`) can be produced from the BF16 checkpoint with
+`dump_residuals_hf.py`:
+
+```
+python3 family/acts_texts.py WEB.txt MIXED.txt texts.txt          # the 36 texts (documents at fixed offsets)
+hf download Qwen/Qwen3-32B --revision 9216db5781bf21249d130ec9da846c4624c16137 --local-dir Qwen3-32B
+python3 family/dump_residuals_hf.py Qwen3-32B texts.txt q32       # 6.7 GB dump; ~65 GB model in memory
+python3 family/acts_14_32.py Qwen3-14B q32 results/family/acts_14_32 > results/family/acts_14_32.txt
+```
+
+Both model scripts use a GPU (MPS by default, `TORCH_DEVICE` to change). `dump_residuals_hf.py` was checked
+only on Qwen3-0.6B on a CPU: it writes the expected format, its hooked tensors equal the model's hidden states
+after each layer, and on the 36 texts the transformers tokenizer gives exactly the token ids (10,179) that
+llama.cpp gave. A BF16 dump will differ slightly from the Q8_0 one used for the committed numbers.
+
 ## Files
 
 - `twin_layers.py`: twin similarity within one GGUF (fixed-offset and scan modes).
@@ -641,11 +1067,16 @@ outputs are in `results/native/`; these scripts were not re-run for this version
 - `gallery_twins.py`: twin pairs among Goodfire's gallery neurons.
 - `weight_tests/`: follow-up tests on the GGUFs, with shared helpers in `common.py`.
 - `native/`: tests on the native BF16 Qwen3-32B (weights, activations, gradients).
+- `loop_hypothesis/`: the loop-hypothesis tests and the 14B/32B family tree, with the two pre-registration
+  notes `predictions.md` and `phylogeny_predictions.md` (kept as written before the runs).
+- `family/`: the Qwen3 family map (twin scans, cross-model maps, sortedness, MoE checks, activations);
+  `paths.py` holds the configurable locations and `hf_remote.py` the range-request reader.
 - `results/`: outputs of `twin_layers.py` and `gallery_twins.py` (each file starts with its command);
-  `results/qwen3_14b/`, `results/weight_tests/`, `results/native/`: outputs of the other scripts
-  (`results/native/checkpoint_revision.txt` records the BF16 revision).
+  `results/qwen3_14b/`, `results/weight_tests/`, `results/native/`, `results/loop_hypothesis/`,
+  `results/family/`: outputs of the other scripts (`results/native/checkpoint_revision.txt` records the BF16
+  revision).
 
-## Corrections to the first version
+## Corrections to earlier versions
 
 The first version of this README (commit 8daa5d9) contained these errors or overstatements:
 
@@ -670,3 +1101,4 @@ The first version of this README (commit 8daa5d9) contained these errors or over
 ## License
 
 MIT; see `LICENSE`.
+

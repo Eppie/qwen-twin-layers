@@ -1,0 +1,5 @@
+0.6B   residual dims: rho(index, embed col norm) +0.196, (index, |gain|) -0.367, (index, qkv col norm) +0.756 | FFN neurons (median over sampled layers): gate +0.401, up +0.490, down +0.509
+1.7B   residual dims: rho(index, embed col norm) -0.014, (index, |gain|) -0.037, (index, qkv col norm) +0.041 | FFN neurons (median over sampled layers): gate -0.008, up -0.000, down -0.009
+4B     residual dims: rho(index, embed col norm) +0.242, (index, |gain|) -0.148, (index, qkv col norm) +0.310 | FFN neurons (median over sampled layers): gate -0.024, up +0.182, down +0.384
+14B    residual dims: rho(index, embed col norm) +0.004, (index, |gain|) +0.000, (index, qkv col norm) +0.005 | FFN neurons (median over sampled layers): gate +0.010, up +0.004, down +0.005
+32B    residual dims: rho(index, embed col norm) +0.017, (index, |gain|) +0.003, (index, qkv col norm) +0.009 | FFN neurons (median over sampled layers): gate -0.092, up -0.222, down -0.101

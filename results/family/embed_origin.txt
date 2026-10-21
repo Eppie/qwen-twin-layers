@@ -1,0 +1,3 @@
+4B embedding vs Q x (8B input embedding): median per-token cosine +0.075 (shuffled tokens +0.012); tokens above 0.2: 0%
+4B embedding vs Q x (8B lm_head (output embedding)): median per-token cosine +0.416 (shuffled tokens +0.008); tokens above 0.2: 100%
+(8B input embedding vs 8B lm_head directly, same tokens: median cosine +0.004)

@@ -1,0 +1,7 @@
+== 4. one linear map fitted on attention weights (even layer pairs), tested on held-out layers (odd pairs)
+  4B   -> 8B  : fit on train layers cos 0.660; held-out layers median cos 0.310 (min 0.130, max 0.457)
+  0.6B -> 1.7B: fit on train layers cos 0.389; held-out layers median cos 0.030 (min 0.015, max 0.156)
+  4B   -> 14B : fit on train layers cos 0.507; held-out layers median cos 0.000 (min -0.001, max 0.001)
+  1.7B -> 8B  : fit on train layers cos 0.451; held-out layers median cos -0.000 (min -0.001, max 0.001)
+  1.7B -> 4B  : fit on train layers cos 0.451; held-out layers median cos 0.000 (min -0.001, max 0.001)
+  8B   -> 14B : fit on train layers cos 0.640; held-out layers median cos -0.000 (min -0.001, max 0.001)

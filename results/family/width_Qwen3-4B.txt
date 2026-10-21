@@ -1,0 +1,15 @@
+Qwen3-4B: FFN 9728 neurons, 32 query heads in 8 KV groups
+  layer  0 FFN: best within-layer match (mean of gate/up/down cosines): median 0.115, >0.1 for 64.5% of neurons (mutual 48%); commonest |offset| 106 x13, 246 x12, 792 x10
+           heads: max off-diagonal 0.264, median best 0.075; mutual pairs above 0.1: [(8, 9), (12, 15), (16, 17), (21, 22), (25, 27), (28, 29)]
+  layer  1 FFN: best within-layer match (mean of gate/up/down cosines): median 0.199, >0.1 for 75.1% of neurons (mutual 54%); commonest |offset| 2 x18, 105 x16, 8 x16
+           heads: max off-diagonal 0.364, median best 0.079; mutual pairs above 0.1: [(4, 7), (10, 11), (13, 15), (24, 25), (28, 31), (29, 30)]
+  layer  9 FFN: best within-layer match (mean of gate/up/down cosines): median 0.106, >0.1 for 59.0% of neurons (mutual 49%); commonest |offset| 95 x11, 258 x10, 1447 x9
+           heads: max off-diagonal 0.448, median best 0.160; mutual pairs above 0.1: [(0, 1), (8, 9), (14, 15), (18, 19), (22, 23), (24, 26), (29, 30)]
+  layer 18 FFN: best within-layer match (mean of gate/up/down cosines): median 0.118, >0.1 for 72.5% of neurons (mutual 47%); commonest |offset| 172 x11, 1751 x10, 22 x10
+           heads: max off-diagonal 0.287, median best 0.072; mutual pairs above 0.1: [(5, 6), (17, 19), (21, 23), (29, 30)]
+  layer 27 FFN: best within-layer match (mean of gate/up/down cosines): median 0.076, >0.1 for 29.1% of neurons (mutual 59%); commonest |offset| 152 x9, 313 x8, 240 x8
+           heads: max off-diagonal 0.310, median best 0.051; mutual pairs above 0.1: [(18, 19)]
+  layer 34 FFN: best within-layer match (mean of gate/up/down cosines): median 0.089, >0.1 for 44.1% of neurons (mutual 46%); commonest |offset| 68 x11, 250 x10, 428 x9
+           heads: max off-diagonal 0.276, median best 0.073; mutual pairs above 0.1: [(0, 1), (4, 6), (8, 11), (17, 19), (28, 30)]
+  layer 35 FFN: best within-layer match (mean of gate/up/down cosines): median 0.101, >0.1 for 50.8% of neurons (mutual 44%); commonest |offset| 50 x11, 124 x10, 95 x10
+           heads: max off-diagonal 0.354, median best 0.012; mutual pairs above 0.1: [(1, 2), (22, 23)]
