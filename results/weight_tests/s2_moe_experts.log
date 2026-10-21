@@ -1,0 +1,83 @@
+Qwen3.6-35B-A3B routed experts: 256 experts x 512 neurons, D=2048; all units + 16/expert sample
+
+=== pair (8,20); matched controls [(8, 16), (8, 24)]  (30s)
+  gate  SS median +0.133 (IQR +0.069..+0.196; 16/expert +0.133) >NNp99 0.775 | SN median +0.009 (IQR -0.009..+0.028; 16/expert +0.009) >NNp99 0.040 | ES median +0.006 (IQR -0.010..+0.022; 16/expert +0.005) >NNp99 0.010 | NN median +0.006 (IQR -0.010..+0.022; 16/expert +0.005) >NNp99 0.010  [24 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.129,+0.137]; matched non-twin SS median +0.0022, p99 +0.0564; SS > ctl p99 0.795
+        per-expert mean SS: min +0.015, 5% +0.028, median +0.148, max +0.268; null per-expert max +0.0233; experts above it 246/256; per-expert frac of neurons > NN p99: min 0.020, median 0.892
+        flat cos (full tensor) +0.144, w/o top-1% norm units +0.141, top 1% share of inner product 0.038; tercile SS median +0.073 / +0.120 / +0.199
+        retrieval: same neuron rank 1 within its expert (of 512) 0.617 (median rank 1); globally (of 131072) rank 1 0.562 (median 1); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.152 vs other experts mean +0.0059 (max +0.034)
+  up    SS median +0.101 (IQR +0.050..+0.152; 16/expert +0.100) >NNp99 0.735 | SN median -0.000 (IQR -0.017..+0.017; 16/expert +0.000) >NNp99 0.018 | ES median -0.000 (IQR -0.015..+0.016; 16/expert +0.000) >NNp99 0.010 | NN median -0.000 (IQR -0.016..+0.015; 16/expert +0.000) >NNp99 0.010  [24 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.097,+0.103]; matched non-twin SS median +0.0001, p99 +0.0528; SS > ctl p99 0.736
+        per-expert mean SS: min +0.010, 5% +0.020, median +0.110, max +0.191; null per-expert max +0.0029; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.020, median 0.836
+        flat cos (full tensor) +0.105, w/o top-1% norm units +0.105, top 1% share of inner product 0.013; tercile SS median +0.109 / +0.087 / +0.104
+        retrieval: same neuron rank 1 within its expert (of 512) 0.602 (median rank 1); globally (of 131072) rank 1 0.502 (median 1); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.110 vs other experts mean -0.0000 (max +0.004)
+  down  SS median +0.155 (IQR +0.080..+0.232; 16/expert +0.152) >NNp99 0.835 | SN median -0.000 (IQR -0.019..+0.018; 16/expert +0.001) >NNp99 0.029 | ES median +0.000 (IQR -0.016..+0.016; 16/expert +0.000) >NNp99 0.010 | NN median +0.000 (IQR -0.016..+0.016; 16/expert +0.001) >NNp99 0.010  [24 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.147,+0.157]; matched non-twin SS median +0.0000, p99 +0.0534; SS > ctl p99 0.842
+        per-expert mean SS: min +0.030, 5% +0.051, median +0.167, max +0.302; null per-expert max +0.0028; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.205, median 0.908
+        flat cos (full tensor) +0.161, w/o top-1% norm units +0.162, top 1% share of inner product 0.009; tercile SS median +0.135 / +0.158 / +0.170
+        retrieval: same neuron rank 1 within its expert (of 512) 0.707 (median rank 1); globally (of 131072) rank 1 0.634 (median 1); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.167 vs other experts mean +0.0000 (max +0.005)
+  mean3 SS median +0.131 (IQR +0.067..+0.192; 16/expert +0.131) >NNp99 0.874 | SN median +0.003 (IQR -0.008..+0.014; 16/expert +0.003) >NNp99 0.034 | ES median +0.002 (IQR -0.007..+0.011; 16/expert +0.002) >NNp99 0.010 | NN median +0.002 (IQR -0.007..+0.011; 16/expert +0.002) >NNp99 0.010  [24 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.127,+0.134]; matched non-twin SS median +0.0008, p99 +0.0324; SS > ctl p99 0.886
+        per-expert mean SS: min +0.022, 5% +0.031, median +0.141, max +0.241; null per-expert max +0.0075; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.186, median 0.955
+
+=== pair (12,24); matched controls [(12, 20), (12, 28)]  (32s)
+  gate  SS median +0.140 (IQR +0.046..+0.219; 16/expert +0.140) >NNp99 0.704 | SN median +0.007 (IQR -0.012..+0.026; 16/expert +0.007) >NNp99 0.053 | ES median +0.003 (IQR -0.012..+0.019; 16/expert +0.003) >NNp99 0.010 | NN median +0.003 (IQR -0.012..+0.018; 16/expert +0.003) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.134,+0.146]; matched non-twin SS median +0.0030, p99 +0.0591; SS > ctl p99 0.702
+        per-expert mean SS: min +0.013, 5% +0.018, median +0.168, max +0.285; null per-expert max +0.0242; experts above it 223/256; per-expert frac of neurons > NN p99: min 0.012, median 0.924
+        flat cos (full tensor) +0.149, w/o top-1% norm units +0.145, top 1% share of inner product 0.044; tercile SS median +0.103 / +0.059 / +0.211
+        retrieval: same neuron rank 1 within its expert (of 512) 0.552 (median rank 1); globally (of 131072) rank 1 0.479 (median 2); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.172 vs other experts mean +0.0032 (max +0.113)
+  up    SS median +0.102 (IQR +0.033..+0.168; 16/expert +0.104) >NNp99 0.663 | SN median -0.000 (IQR -0.017..+0.017; 16/expert -0.000) >NNp99 0.025 | ES median -0.000 (IQR -0.015..+0.015; 16/expert +0.000) >NNp99 0.010 | NN median -0.000 (IQR -0.015..+0.015; 16/expert +0.000) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.098,+0.109]; matched non-twin SS median -0.0000, p99 +0.0533; SS > ctl p99 0.662
+        per-expert mean SS: min +0.006, 5% +0.011, median +0.124, max +0.326; null per-expert max +0.0027; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.016, median 0.870
+        flat cos (full tensor) +0.109, w/o top-1% norm units +0.109, top 1% share of inner product 0.015; tercile SS median +0.098 / +0.050 / +0.137
+        retrieval: same neuron rank 1 within its expert (of 512) 0.544 (median rank 1); globally (of 131072) rank 1 0.452 (median 6); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.124 vs other experts mean -0.0000 (max +0.005)
+  down  SS median +0.127 (IQR +0.059..+0.203; 16/expert +0.128) >NNp99 0.778 | SN median +0.000 (IQR -0.019..+0.018; 16/expert +0.000) >NNp99 0.032 | ES median +0.000 (IQR -0.015..+0.015; 16/expert -0.001) >NNp99 0.009 | NN median +0.000 (IQR -0.015..+0.015; 16/expert -0.000) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.123,+0.133]; matched non-twin SS median +0.0002, p99 +0.0541; SS > ctl p99 0.777
+        per-expert mean SS: min +0.027, 5% +0.045, median +0.151, max +0.271; null per-expert max +0.0031; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.176, median 0.898
+        flat cos (full tensor) +0.139, w/o top-1% norm units +0.139, top 1% share of inner product 0.012; tercile SS median +0.067 / +0.141 / +0.165
+        retrieval: same neuron rank 1 within its expert (of 512) 0.606 (median rank 1); globally (of 131072) rank 1 0.464 (median 2); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.149 vs other experts mean -0.0000 (max +0.004)
+  mean3 SS median +0.125 (IQR +0.043..+0.195; 16/expert +0.125) >NNp99 0.817 | SN median +0.002 (IQR -0.009..+0.013; 16/expert +0.002) >NNp99 0.046 | ES median +0.001 (IQR -0.008..+0.010; 16/expert +0.001) >NNp99 0.010 | NN median +0.001 (IQR -0.008..+0.010; 16/expert +0.001) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.120,+0.129]; matched non-twin SS median +0.0010, p99 +0.0333; SS > ctl p99 0.812
+        per-expert mean SS: min +0.016, 5% +0.025, median +0.148, max +0.289; null per-expert max +0.0077; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.133, median 0.966
+
+=== pair (16,28); matched controls [(16, 24), (16, 32)]  (30s)
+  gate  SS median +0.124 (IQR +0.056..+0.193; 16/expert +0.123) >NNp99 0.749 | SN median +0.005 (IQR -0.014..+0.024; 16/expert +0.005) >NNp99 0.047 | ES median +0.002 (IQR -0.014..+0.017; 16/expert +0.002) >NNp99 0.011 | NN median +0.002 (IQR -0.014..+0.017; 16/expert +0.002) >NNp99 0.010  [7 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.118,+0.128]; matched non-twin SS median +0.0022, p99 +0.0560; SS > ctl p99 0.749
+        per-expert mean SS: min +0.014, 5% +0.020, median +0.144, max +0.261; null per-expert max +0.0118; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.031, median 0.915
+        flat cos (full tensor) +0.137, w/o top-1% norm units +0.133, top 1% share of inner product 0.047; tercile SS median +0.118 / +0.072 / +0.173
+        retrieval: same neuron rank 1 within its expert (of 512) 0.518 (median rank 1); globally (of 131072) rank 1 0.437 (median 3); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.150 vs other experts mean +0.0021 (max +0.017)
+  up    SS median +0.088 (IQR +0.037..+0.145; 16/expert +0.088) >NNp99 0.668 | SN median -0.000 (IQR -0.017..+0.017; 16/expert -0.001) >NNp99 0.025 | ES median +0.000 (IQR -0.015..+0.015; 16/expert -0.001) >NNp99 0.010 | NN median +0.000 (IQR -0.015..+0.015; 16/expert -0.001) >NNp99 0.010  [7 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.085,+0.092]; matched non-twin SS median +0.0000, p99 +0.0527; SS > ctl p99 0.669
+        per-expert mean SS: min +0.004, 5% +0.011, median +0.109, max +0.192; null per-expert max +0.0028; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.018, median 0.818
+        flat cos (full tensor) +0.098, w/o top-1% norm units +0.098, top 1% share of inner product 0.016; tercile SS median +0.083 / +0.069 / +0.107
+        retrieval: same neuron rank 1 within its expert (of 512) 0.497 (median rank 2); globally (of 131072) rank 1 0.391 (median 12); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.109 vs other experts mean -0.0000 (max +0.004)
+  down  SS median +0.096 (IQR +0.048..+0.158; 16/expert +0.095) >NNp99 0.713 | SN median -0.000 (IQR -0.018..+0.018; 16/expert -0.000) >NNp99 0.028 | ES median -0.000 (IQR -0.016..+0.015; 16/expert +0.000) >NNp99 0.010 | NN median +0.000 (IQR -0.016..+0.016; 16/expert -0.000) >NNp99 0.010  [7 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.092,+0.099]; matched non-twin SS median -0.0001, p99 +0.0537; SS > ctl p99 0.718
+        per-expert mean SS: min +0.014, 5% +0.033, median +0.116, max +0.207; null per-expert max +0.0038; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.080, median 0.837
+        flat cos (full tensor) +0.109, w/o top-1% norm units +0.109, top 1% share of inner product 0.015; tercile SS median +0.072 / +0.095 / +0.117
+        retrieval: same neuron rank 1 within its expert (of 512) 0.502 (median rank 1); globally (of 131072) rank 1 0.354 (median 7); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.115 vs other experts mean -0.0000 (max +0.004)
+  mean3 SS median +0.104 (IQR +0.046..+0.164; 16/expert +0.103) >NNp99 0.830 | SN median +0.001 (IQR -0.009..+0.012; 16/expert +0.001) >NNp99 0.037 | ES median +0.001 (IQR -0.008..+0.009; 16/expert +0.001) >NNp99 0.010 | NN median +0.001 (IQR -0.008..+0.010; 16/expert +0.000) >NNp99 0.010  [7 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.100,+0.107]; matched non-twin SS median +0.0007, p99 +0.0321; SS > ctl p99 0.830
+        per-expert mean SS: min +0.016, 5% +0.023, median +0.123, max +0.220; null per-expert max +0.0046; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.121, median 0.968
+
+=== pair (19,31); matched controls [(19, 27), (19, 35)]  (29s)
+  gate  SS median +0.125 (IQR +0.061..+0.204; 16/expert +0.128) >NNp99 0.763 | SN median +0.006 (IQR -0.013..+0.025; 16/expert +0.006) >NNp99 0.051 | ES median +0.003 (IQR -0.012..+0.019; 16/expert +0.003) >NNp99 0.010 | NN median +0.003 (IQR -0.012..+0.019; 16/expert +0.004) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.123,+0.133]; matched non-twin SS median +0.0037, p99 +0.0589; SS > ctl p99 0.760
+        per-expert mean SS: min +0.006, 5% +0.026, median +0.149, max +0.275; null per-expert max +0.0208; experts above it 249/256; per-expert frac of neurons > NN p99: min 0.025, median 0.893
+        flat cos (full tensor) +0.150, w/o top-1% norm units +0.146, top 1% share of inner product 0.049; tercile SS median +0.099 / +0.086 / +0.212
+        retrieval: same neuron rank 1 within its expert (of 512) 0.505 (median rank 1); globally (of 131072) rank 1 0.419 (median 3); expert-level (flattened expert, of 256) rank 1 0.996, same-expert cos median +0.157 vs other experts mean +0.0038 (max +0.107)
+  up    SS median +0.081 (IQR +0.036..+0.135; 16/expert +0.081) >NNp99 0.650 | SN median -0.000 (IQR -0.017..+0.017; 16/expert -0.000) >NNp99 0.023 | ES median -0.000 (IQR -0.015..+0.015; 16/expert -0.000) >NNp99 0.010 | NN median +0.000 (IQR -0.015..+0.015; 16/expert +0.000) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.078,+0.083]; matched non-twin SS median +0.0000, p99 +0.0536; SS > ctl p99 0.647
+        per-expert mean SS: min +0.003, 5% +0.014, median +0.098, max +0.175; null per-expert max +0.0034; experts above it 254/256; per-expert frac of neurons > NN p99: min 0.010, median 0.765
+        flat cos (full tensor) +0.091, w/o top-1% norm units +0.090, top 1% share of inner product 0.018; tercile SS median +0.087 / +0.063 / +0.091
+        retrieval: same neuron rank 1 within its expert (of 512) 0.470 (median rank 2); globally (of 131072) rank 1 0.337 (median 36); expert-level (flattened expert, of 256) rank 1 0.996, same-expert cos median +0.097 vs other experts mean +0.0000 (max +0.004)
+  down  SS median +0.081 (IQR +0.038..+0.142; 16/expert +0.081) >NNp99 0.651 | SN median +0.000 (IQR -0.017..+0.018; 16/expert +0.000) >NNp99 0.025 | ES median -0.000 (IQR -0.015..+0.015; 16/expert -0.000) >NNp99 0.009 | NN median -0.000 (IQR -0.015..+0.015; 16/expert +0.000) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.077,+0.084]; matched non-twin SS median +0.0000, p99 +0.0540; SS > ctl p99 0.652
+        per-expert mean SS: min +0.004, 5% +0.025, median +0.095, max +0.196; null per-expert max +0.0034; experts above it 256/256; per-expert frac of neurons > NN p99: min 0.016, median 0.741
+        flat cos (full tensor) +0.095, w/o top-1% norm units +0.094, top 1% share of inner product 0.017; tercile SS median +0.074 / +0.070 / +0.103
+        retrieval: same neuron rank 1 within its expert (of 512) 0.436 (median rank 2); globally (of 131072) rank 1 0.317 (median 36); expert-level (flattened expert, of 256) rank 1 1.000, same-expert cos median +0.095 vs other experts mean +0.0000 (max +0.004)
+  mean3 SS median +0.097 (IQR +0.046..+0.159; 16/expert +0.098) >NNp99 0.828 | SN median +0.002 (IQR -0.009..+0.012; 16/expert +0.002) >NNp99 0.037 | ES median +0.001 (IQR -0.008..+0.010; 16/expert +0.001) >NNp99 0.009 | NN median +0.001 (IQR -0.008..+0.010; 16/expert +0.001) >NNp99 0.010  [0 units excluded: all-zero in a or b]
+        SS 16/expert median 95% CI [+0.095,+0.102]; matched non-twin SS median +0.0013, p99 +0.0331; SS > ctl p99 0.825
+        per-expert mean SS: min +0.004, 5% +0.021, median +0.113, max +0.213; null per-expert max +0.0076; experts above it 255/256; per-expert frac of neurons > NN p99: min 0.035, median 0.945
+
+done

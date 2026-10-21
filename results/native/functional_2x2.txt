@@ -1,0 +1,51 @@
+66 documents, 31016 tokens: web 10721, multilingual 10067, code 10228
+loaded in 22s
+captured 12 layers in 335s
+twin     8,32 full: X_A          neuron r +0.134 [+0.116,+0.136] (shuffled +0.001) rank0 0.46 med rank 1 | top1% J +0.05 -0.05 (shuf 0.02) | FFN out cos +0.157 [+0.151,+0.162] rel err 1.87
+twin     8,32 full: X_B          neuron r +0.131 [+0.116,+0.131] (shuffled -0.000) rank0 0.47 med rank 1 | top1% J +0.05 -0.05 (shuf 0.01) | FFN out cos +0.184 [+0.170,+0.195] rel err 2.08
+twin     8,32 matched: n_A(X_A)  neuron r +0.131 [+0.115,+0.129] (shuffled +0.000) rank0 0.45 med rank 1 | top1% J +0.05 -0.05 (shuf 0.01) | FFN out cos +0.139 [+0.135,+0.144] rel err 1.40
+twin     8,32 matched: n_B(X_B)  neuron r +0.125 [+0.110,+0.125] (shuffled -0.000) rank0 0.46 med rank 1 | top1% J +0.05 -0.05 (shuf 0.01) | FFN out cos +0.159 [+0.149,+0.170] rel err 1.26
+twin     8,32 native             neuron r +0.079 [+0.066,+0.081] (shuffled +0.000) rank0 0.31 med rank 10 | top1% J +0.04 -0.04 (shuf 0.01) | FFN out cos +0.085 [+0.075,+0.095] rel err 2.94
+  (51s)
+twin    16,40 full: X_A          neuron r +0.142 [+0.131,+0.143] (shuffled +0.000) rank0 0.56 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.204 [+0.201,+0.208] rel err 1.94
+twin    16,40 full: X_B          neuron r +0.174 [+0.164,+0.181] (shuffled +0.001) rank0 0.62 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.185 [+0.178,+0.194] rel err 2.02
+twin    16,40 matched: n_A(X_A)  neuron r +0.145 [+0.137,+0.151] (shuffled +0.000) rank0 0.58 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.216 [+0.213,+0.219] rel err 1.20
+twin    16,40 matched: n_B(X_B)  neuron r +0.176 [+0.161,+0.180] (shuffled +0.000) rank0 0.61 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.180 [+0.173,+0.190] rel err 1.30
+twin    16,40 native             neuron r +0.070 [+0.063,+0.072] (shuffled -0.001) rank0 0.42 med rank 1 | top1% J +0.03 -0.03 (shuf 0.01) | FFN out cos +0.098 [+0.092,+0.105] rel err 2.81
+  (51s)
+twin    24,48 full: X_A          neuron r +0.121 [+0.110,+0.124] (shuffled -0.000) rank0 0.57 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.129 [+0.124,+0.134] rel err 2.31
+twin    24,48 full: X_B          neuron r +0.161 [+0.142,+0.170] (shuffled +0.000) rank0 0.56 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.132 [+0.127,+0.141] rel err 2.25
+twin    24,48 matched: n_A(X_A)  neuron r +0.135 [+0.122,+0.138] (shuffled -0.001) rank0 0.58 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.147 [+0.143,+0.152] rel err 1.26
+twin    24,48 matched: n_B(X_B)  neuron r +0.155 [+0.133,+0.161] (shuffled -0.001) rank0 0.55 med rank 0 | top1% J +0.06 -0.06 (shuf 0.01) | FFN out cos +0.122 [+0.114,+0.129] rel err 1.30
+twin    24,48 native             neuron r +0.077 [+0.068,+0.082] (shuffled +0.001) rank0 0.39 med rank 1 | top1% J +0.04 -0.04 (shuf 0.01) | FFN out cos +0.078 [+0.073,+0.084] rel err 2.47
+  (51s)
+twin    31,55 full: X_A          neuron r +0.020 [+0.016,+0.022] (shuffled -0.000) rank0 0.12 med rank 1796 | top1% J +0.02 -0.02 (shuf 0.01) | FFN out cos -0.018 [-0.031,-0.006] rel err 3.52
+twin    31,55 full: X_B          neuron r +0.022 [+0.021,+0.028] (shuffled -0.000) rank0 0.15 med rank 2821 | top1% J +0.03 -0.03 (shuf 0.01) | FFN out cos -0.021 [-0.033,-0.012] rel err 3.09
+twin    31,55 matched: n_A(X_A)  neuron r +0.039 [+0.036,+0.044] (shuffled -0.000) rank0 0.16 med rank 528 | top1% J +0.03 -0.03 (shuf 0.01) | FFN out cos -0.024 [-0.040,-0.009] rel err 2.86
+twin    31,55 matched: n_B(X_B)  neuron r +0.035 [+0.028,+0.038] (shuffled -0.001) rank0 0.19 med rank 450 | top1% J +0.04 -0.03 (shuf 0.01) | FFN out cos +0.102 [+0.089,+0.115] rel err 1.75
+twin    31,55 native             neuron r +0.012 [+0.010,+0.014] (shuffled -0.000) rank0 0.12 med rank 3972 | top1% J +0.02 -0.02 (shuf 0.01) | FFN out cos -0.023 [-0.034,-0.013] rel err 5.95
+  (51s)
+control  8,36 full: X_A          neuron r -0.002 [-0.003,-0.000] (shuffled +0.000) rank0 0.00 med rank 14440 | top1% J +0.01 -0.02 (shuf 0.02) | FFN out cos -0.056 [-0.063,-0.051] rel err 2.02
+control  8,36 full: X_B          neuron r -0.001 [-0.002,+0.000] (shuffled -0.001) rank0 0.00 med rank 13396 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos -0.003 [-0.009,+0.003] rel err 2.23
+control  8,36 matched: n_A(X_A)  neuron r -0.003 [-0.004,-0.001] (shuffled -0.000) rank0 0.00 med rank 14194 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos -0.214 [-0.226,-0.200] rel err 3.65
+control  8,36 matched: n_B(X_B)  neuron r -0.001 [-0.002,+0.000] (shuffled -0.000) rank0 0.00 med rank 13869 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos -0.033 [-0.037,-0.029] rel err 1.45
+control  8,36 native             neuron r +0.000 [-0.001,+0.001] (shuffled +0.000) rank0 0.00 med rank 12351 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos -0.051 [-0.057,-0.046] rel err 3.33
+  (52s)
+control 16,44 full: X_A          neuron r -0.001 [-0.001,+0.001] (shuffled -0.000) rank0 0.00 med rank 13449 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.058 [+0.056,+0.060] rel err 2.23
+control 16,44 full: X_B          neuron r -0.000 [-0.001,+0.001] (shuffled +0.001) rank0 0.00 med rank 13250 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.077 [+0.064,+0.090] rel err 2.79
+control 16,44 matched: n_A(X_A)  neuron r -0.000 [-0.001,+0.001] (shuffled -0.000) rank0 0.00 med rank 13068 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.068 [+0.066,+0.069] rel err 1.20
+control 16,44 matched: n_B(X_B)  neuron r -0.000 [-0.001,+0.001] (shuffled +0.001) rank0 0.00 med rank 12924 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.065 [+0.049,+0.081] rel err 1.43
+control 16,44 native             neuron r +0.000 [-0.001,+0.001] (shuffled +0.000) rank0 0.00 med rank 12635 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.029 [+0.020,+0.036] rel err 3.18
+  (51s)
+control 24,52 full: X_A          neuron r +0.000 [-0.001,+0.001] (shuffled -0.000) rank0 0.00 med rank 12673 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.016 [+0.015,+0.017] rel err 3.61
+control 24,52 full: X_B          neuron r +0.000 [-0.001,+0.002] (shuffled -0.000) rank0 0.00 med rank 12360 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.048 [+0.045,+0.052] rel err 3.60
+control 24,52 matched: n_A(X_A)  neuron r +0.000 [-0.001,+0.001] (shuffled -0.001) rank0 0.00 med rank 12640 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.021 [+0.020,+0.021] rel err 1.32
+control 24,52 matched: n_B(X_B)  neuron r +0.001 [-0.001,+0.002] (shuffled -0.000) rank0 0.00 med rank 12398 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.054 [+0.050,+0.058] rel err 1.32
+control 24,52 native             neuron r +0.001 [-0.001,+0.002] (shuffled -0.000) rank0 0.00 med rank 11931 | top1% J +0.01 -0.00 (shuf 0.01) | FFN out cos +0.024 [+0.022,+0.026] rel err 4.58
+  (51s)
+control  7,31 full: X_A          neuron r +0.000 [-0.001,+0.001] (shuffled +0.001) rank0 0.00 med rank 12834 | top1% J +0.02 -0.02 (shuf 0.02) | FFN out cos -0.123 [-0.155,-0.091] rel err 2.58
+control  7,31 full: X_B          neuron r -0.001 [-0.002,+0.001] (shuffled -0.000) rank0 0.00 med rank 13338 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos -0.016 [-0.034,+0.003] rel err 1.13
+control  7,31 matched: n_A(X_A)  neuron r +0.001 [-0.001,+0.003] (shuffled +0.001) rank0 0.00 med rank 12299 | top1% J +0.02 -0.02 (shuf 0.02) | FFN out cos +0.372 [+0.341,+0.396] rel err 2.21
+control  7,31 matched: n_B(X_B)  neuron r -0.001 [-0.002,+0.000] (shuffled +0.000) rank0 0.00 med rank 13298 | top1% J +0.01 -0.01 (shuf 0.01) | FFN out cos +0.011 [+0.003,+0.017] rel err 1.05
+control  7,31 native             neuron r -0.000 [-0.001,+0.001] (shuffled -0.000) rank0 0.00 med rank 13589 | top1% J +0.00 -0.00 (shuf 0.00) | FFN out cos -0.060 [-0.090,-0.023] rel err 2.31
+  (51s)

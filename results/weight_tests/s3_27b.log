@@ -1,0 +1,90 @@
+Qwen3.8-27B: norm families ['attn_k_norm.weight', 'attn_norm.weight', 'attn_q_norm.weight', 'post_attention_norm.weight', 'ssm_a', 'ssm_dt.bias', 'ssm_norm.weight']
+stored values (decoder layers): attn_k_norm.weight mean +1.486; attn_norm.weight mean +1.061; attn_q_norm.weight mean +1.495; post_attention_norm.weight mean +1.021; ssm_a mean -2.071; ssm_dt.bias mean -2.842; ssm_norm.weight mean +0.955
+
+##### attn_k_norm.weight: 16 layers, dim 256
+  -1/(n-1) check (all-layer centring): mean r over all 120 pairs -0.0588; norm-weighted mean -0.0720; -1/(n-1) = -0.0667; centred-vector norms CV 0.27
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear      freq_smooth       freq_rough        pair_diff        smooth_ma         rough_ma    pair_diff_raw           nonrot       nonrot_raw
+  twin_AB        4   +0.850±0.004  +0.645±0.053  +0.772±0.031  +0.794±0.031  +0.675±0.124  -0.209±0.721  +0.517±0.220  +0.918±0.022  -0.372±0.769  +0.499±0.261  +0.897±0.028  +0.646±0.175  +0.526±0.234
+  twin_AC        4   +0.807±0.027  +0.531±0.056  +0.686±0.046  +0.715±0.041  +0.611±0.133  -0.701±0.180  +0.531±0.189  +0.879±0.052  -0.826±0.122  +0.516±0.261  +0.856±0.051  +0.600±0.149  +0.536±0.176
+  twin_BC        4   +0.931±0.016  +0.869±0.039  +0.905±0.029  +0.870±0.062  +0.859±0.047  +0.540±0.680  +0.833±0.096  +0.933±0.034  +0.587±0.551  +0.848±0.080  +0.923±0.035  +0.846±0.090  +0.837±0.084
+  adjacent       15  +0.347±0.108  -0.015±0.253  +0.289±0.201  +0.288±0.158  +0.274±0.154  +0.676±0.487  +0.209±0.340  +0.248±0.209  +0.700±0.492  +0.272±0.338  +0.018±0.164  +0.259±0.151  +0.017±0.057
+  ctl4           28  +0.325±0.107  -0.202±0.152  +0.184±0.139  +0.188±0.166  +0.219±0.108  -0.124±0.763  +0.142±0.272  +0.213±0.180  -0.212±0.802  +0.181±0.236  -0.003±0.167  +0.229±0.115  +0.005±0.063
+  nontwin_other  65  +0.191±0.146  -0.144±0.177  +0.133±0.168  +0.153±0.141  +0.182±0.127  -0.044±0.822  +0.161±0.280  +0.145±0.174  -0.054±0.831  +0.119±0.339  -0.104±0.194  +0.181±0.116  -0.028±0.066
+  variance share of the c_excl-centred gain (twin layers a): share_freq_smooth 0.10, share_freq_rough 0.09, share_pair_diff 0.75, share_nonrot 0.05
+  c_excl: twin pairs above the max over ctl4 pairs: 12/12; twin min +0.640, ctl4 max +0.414
+  local_excl: twin pairs above the max over ctl4 pairs: 12/12; twin min +0.674, ctl4 max +0.402
+
+##### attn_norm.weight: 64 layers, dim 5120
+  -1/(n-1) check (all-layer centring): mean r over all 2016 pairs -0.0052; norm-weighted mean -0.0198; -1/(n-1) = -0.0159; centred-vector norms CV 0.49
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear
+  twin_AB        16  +0.576±0.266  +0.040±0.472  -0.040±0.529  +0.346±0.473  -0.105±0.513
+  twin_AC        16  +0.448±0.263  -0.130±0.495  -0.382±0.428  +0.265±0.403  -0.399±0.469
+  twin_BC        16  +0.841±0.240  +0.633±0.385  +0.587±0.421  +0.563±0.249  +0.582±0.413
+  adjacent       63  +0.681±0.378  +0.587±0.434  +0.580±0.447  +0.161±0.510  +0.665±0.377
+  ctl4           112 +0.513±0.368  +0.039±0.511  -0.079±0.536  +0.043±0.393  -0.087±0.559
+  nontwin_other  1793 +0.289±0.500  -0.034±0.573  -0.044±0.581  -0.168±0.463  -0.018±0.599
+  c_excl: twin pairs above the max over ctl4 pairs: 0/48; twin min -0.816, ctl4 max +0.962
+  local_excl: twin pairs above the max over ctl4 pairs: 2/48; twin min -0.759, ctl4 max +0.910
+
+##### attn_q_norm.weight: 16 layers, dim 256
+  -1/(n-1) check (all-layer centring): mean r over all 120 pairs -0.0593; norm-weighted mean -0.0714; -1/(n-1) = -0.0667; centred-vector norms CV 0.26
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear      freq_smooth       freq_rough        pair_diff        smooth_ma         rough_ma    pair_diff_raw           nonrot       nonrot_raw
+  twin_AB        4   +0.827±0.080  +0.610±0.083  +0.740±0.064  +0.755±0.057  +0.599±0.096  -0.062±0.638  +0.742±0.239  +0.852±0.064  -0.053±0.622  +0.760±0.194  +0.818±0.083  +0.647±0.176  +0.528±0.234
+  twin_AC        4   +0.773±0.086  +0.405±0.189  +0.583±0.154  +0.627±0.064  +0.500±0.129  -0.503±0.221  +0.640±0.339  +0.792±0.109  -0.495±0.300  +0.550±0.386  +0.749±0.130  +0.596±0.154  +0.532±0.181
+  twin_BC        4   +0.926±0.026  +0.836±0.061  +0.878±0.046  +0.853±0.068  +0.835±0.045  +0.606±0.655  +0.853±0.037  +0.909±0.053  +0.595±0.587  +0.830±0.076  +0.893±0.053  +0.850±0.091  +0.843±0.084
+  adjacent       15  +0.409±0.147  -0.047±0.361  +0.239±0.279  +0.253±0.215  +0.286±0.176  +0.607±0.580  +0.047±0.316  +0.200±0.279  +0.525±0.635  +0.179±0.345  -0.036±0.218  +0.259±0.153  +0.017±0.058
+  ctl4           28  +0.392±0.107  -0.252±0.216  +0.113±0.181  +0.137±0.177  +0.201±0.112  +0.066±0.701  -0.058±0.261  +0.177±0.240  -0.091±0.773  +0.023±0.251  -0.028±0.214  +0.228±0.116  +0.004±0.065
+  nontwin_other  65  +0.273±0.176  -0.104±0.243  +0.159±0.228  +0.190±0.200  +0.170±0.135  -0.034±0.812  +0.288±0.295  +0.217±0.253  +0.023±0.815  +0.212±0.372  -0.066±0.223  +0.182±0.116  -0.028±0.066
+  variance share of the c_excl-centred gain (twin layers a): share_freq_smooth 0.17, share_freq_rough 0.17, share_pair_diff 0.56, share_nonrot 0.10
+  c_excl: twin pairs above the max over ctl4 pairs: 10/12; twin min +0.359, ctl4 max +0.616
+  local_excl: twin pairs above the max over ctl4 pairs: 11/12; twin min +0.526, ctl4 max +0.569
+
+##### post_attention_norm.weight: 64 layers, dim 5120
+  -1/(n-1) check (all-layer centring): mean r over all 2016 pairs -0.0098; norm-weighted mean -0.0181; -1/(n-1) = -0.0159; centred-vector norms CV 0.37
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear
+  twin_AB        16  +0.925±0.043  -0.107±0.503  -0.022±0.479  +0.580±0.269  -0.225±0.454
+  twin_AC        16  +0.874±0.045  -0.353±0.372  -0.265±0.359  +0.552±0.202  -0.434±0.246
+  twin_BC        16  +0.949±0.041  +0.500±0.480  +0.540±0.461  +0.665±0.243  +0.604±0.322
+  adjacent       63  +0.953±0.095  +0.868±0.157  +0.877±0.146  +0.582±0.389  +0.879±0.110
+  ctl4           112 +0.886±0.078  -0.176±0.510  -0.068±0.495  +0.158±0.471  -0.111±0.517
+  nontwin_other  1793 +0.802±0.198  -0.031±0.565  +0.009±0.556  +0.041±0.462  +0.013±0.600
+  c_excl: twin pairs above the max over ctl4 pairs: 0/48; twin min -0.742, ctl4 max +0.942
+  local_excl: twin pairs above the max over ctl4 pairs: 7/48; twin min -0.004, ctl4 max +0.865
+
+##### ssm_a: 48 layers, dim 48
+  -1/(n-1) check (all-layer centring): mean r over all 1128 pairs +0.1290; norm-weighted mean -0.0396; -1/(n-1) = -0.0213; centred-vector norms CV 0.91
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear
+  twin_AB        12  +0.946±0.043  +0.964±0.048  +0.968±0.043  +0.914±0.087  +0.955±0.028
+  twin_AC        12  +0.890±0.092  +0.939±0.062  +0.947±0.054  +0.800±0.237  +0.951±0.025
+  twin_BC        12  +0.907±0.101  +0.945±0.074  +0.952±0.065  +0.840±0.212  +0.968±0.027
+  adjacent       47  +0.027±0.224  +0.151±0.580  +0.257±0.518  +0.220±0.433  +0.407±0.335
+  ctl4           84  +0.082±0.192  +0.073±0.561  +0.206±0.516  +0.076±0.363  +0.394±0.233
+  nontwin_other  961 +0.034±0.216  +0.102±0.540  +0.214±0.501  +0.067±0.339  +0.405±0.248
+  c_excl: twin pairs above the max over ctl4 pairs: 22/36; twin min +0.777, ctl4 max +0.974
+  local_excl: twin pairs above the max over ctl4 pairs: 27/36; twin min +0.213, ctl4 max +0.843
+
+##### ssm_dt.bias: 48 layers, dim 48
+  -1/(n-1) check (all-layer centring): mean r over all 1128 pairs -0.0154; norm-weighted mean -0.0247; -1/(n-1) = -0.0213; centred-vector norms CV 0.39
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear
+  twin_AB        12  +0.978±0.010  +0.978±0.009  +0.980±0.008  +0.967±0.034  +0.965±0.015
+  twin_AC        12  +0.977±0.009  +0.976±0.007  +0.979±0.006  +0.954±0.043  +0.966±0.012
+  twin_BC        12  +0.986±0.007  +0.985±0.007  +0.987±0.006  +0.974±0.036  +0.976±0.013
+  adjacent       47  +0.013±0.148  -0.030±0.161  +0.080±0.164  +0.199±0.188  +0.084±0.158
+  ctl4           84  -0.035±0.186  -0.078±0.160  +0.047±0.160  +0.055±0.202  +0.069±0.161
+  nontwin_other  961 -0.007±0.198  -0.046±0.198  +0.058±0.197  +0.032±0.204  +0.059±0.190
+  c_excl: twin pairs above the max over ctl4 pairs: 36/36; twin min +0.968, ctl4 max +0.394
+  local_excl: twin pairs above the max over ctl4 pairs: 36/36; twin min +0.859, ctl4 max +0.500
+
+##### ssm_norm.weight: 48 layers, dim 128
+  -1/(n-1) check (all-layer centring): mean r over all 1128 pairs -0.0171; norm-weighted mean -0.0233; -1/(n-1) = -0.0213; centred-vector norms CV 0.31
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear
+  twin_AB        12  +0.674±0.118  +0.647±0.120  +0.686±0.108  +0.662±0.097  +0.616±0.089
+  twin_AC        12  +0.535±0.147  +0.502±0.152  +0.553±0.141  +0.504±0.161  +0.489±0.097
+  twin_BC        12  +0.759±0.171  +0.744±0.181  +0.765±0.168  +0.749±0.185  +0.727±0.149
+  adjacent       47  +0.009±0.074  -0.037±0.097  +0.056±0.095  +0.168±0.104  +0.136±0.153
+  ctl4           84  +0.001±0.085  -0.065±0.085  +0.045±0.080  +0.042±0.081  +0.102±0.103
+  nontwin_other  961 +0.015±0.091  -0.036±0.101  +0.061±0.098  +0.032±0.108  +0.122±0.119
+  c_excl: twin pairs above the max over ctl4 pairs: 36/36; twin min +0.306, ctl4 max +0.253
+  local_excl: twin pairs above the max over ctl4 pairs: 35/36; twin min +0.167, ctl4 max +0.223
+
+done

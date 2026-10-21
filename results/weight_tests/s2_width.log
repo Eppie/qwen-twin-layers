@@ -1,0 +1,47 @@
+=== Qwen3-32B
+  ffn_gate: best step 17408 (above minus below -0.098 log), score 53.85; permuted-order null: max over 200 draws 0.04, 99th pct 0.03 -> score / null max = 1423.6
+  ffn_up: best step 17408 (above minus below -0.091 log), score 45.81; permuted-order null: max over 200 draws 0.03, 99th pct 0.02 -> score / null max = 1670.8
+  ffn_down: best step 17408 (above minus below -0.090 log), score 45.50; permuted-order null: max over 200 draws 0.03, 99th pct 0.02 -> score / null max = 1812.7
+  layer 9 neurons above the step: best partner below the step is the same base neuron for gate&up 0.979, gate&down 0.979, all three 0.977 (chance ~5.7e-05); median best cos gate 0.218
+  layer 33 neurons above the step: best partner below the step is the same base neuron for gate&up 0.972, gate&down 0.967, all three 0.963 (chance ~5.7e-05); median best cos gate 0.203
+  twins (9,33) neurons above: same gate partner in both layers 0.964; same up partner 0.984
+  layer 9 neurons below the step: best partner below the step is the same base neuron for gate&up 0.116, gate&down 0.108, all three 0.075 (chance ~5.7e-05); median best cos gate 0.138
+  layer 33 neurons below the step: best partner below the step is the same base neuron for gate&up 0.059, gate&down 0.075, all three 0.034 (chance ~5.7e-05); median best cos gate 0.138
+  twins (9,33) neurons below: same gate partner in both layers 0.222; same up partner 0.194
+  layer 16 neurons above the step: best partner below the step is the same base neuron for gate&up 0.917, gate&down 0.921, all three 0.913 (chance ~5.7e-05); median best cos gate 0.190
+  layer 40 neurons above the step: best partner below the step is the same base neuron for gate&up 0.945, gate&down 0.943, all three 0.932 (chance ~5.7e-05); median best cos gate 0.244
+  twins (16,40) neurons above: same gate partner in both layers 0.896; same up partner 0.927
+  layer 16 neurons below the step: best partner below the step is the same base neuron for gate&up 0.144, gate&down 0.142, all three 0.090 (chance ~5.7e-05); median best cos gate 0.145
+  layer 40 neurons below the step: best partner below the step is the same base neuron for gate&up 0.042, gate&down 0.057, all three 0.013 (chance ~5.7e-05); median best cos gate 0.166
+  twins (16,40) neurons below: same gate partner in both layers 0.223; same up partner 0.170
+  layer 24 neurons above the step: best partner below the step is the same base neuron for gate&up 0.922, gate&down 0.925, all three 0.917 (chance ~5.7e-05); median best cos gate 0.205
+  layer 48 neurons above the step: best partner below the step is the same base neuron for gate&up 0.970, gate&down 0.976, all three 0.962 (chance ~5.7e-05); median best cos gate 0.243
+  twins (24,48) neurons above: same gate partner in both layers 0.922; same up partner 0.933
+  layer 24 neurons below the step: best partner below the step is the same base neuron for gate&up 0.096, gate&down 0.102, all three 0.055 (chance ~5.7e-05); median best cos gate 0.135
+  layer 48 neurons below the step: best partner below the step is the same base neuron for gate&up 0.027, gate&down 0.050, all three 0.003 (chance ~5.7e-05); median best cos gate 0.147
+  twins (24,48) neurons below: same gate partner in both layers 0.199; same up partner 0.142
+  3. ffn_gate: cos(k, 17408+k) median per layer +0.059..+0.988 (mean +0.267); fraction > 0.1 per layer 0.20..1.00; shifted control medians +0.002..+0.149
+  3. ffn_up: cos(k, 17408+k) median per layer +0.045..+0.403 (mean +0.201); fraction > 0.1 per layer 0.08..1.00; shifted control medians -0.001..+0.001
+  3. ffn_down: cos(k, 17408+k) median per layer +0.041..+0.483 (mean +0.242); fraction > 0.1 per layer 0.09..1.00; shifted control medians -0.001..+0.001
+  4. 8 query heads per KV group; mutual q-and-o best pairs (local index) over 512 (layer, group) slots (any of 28 pairs possible): (2, 5): 395, (0, 3): 381, (1, 4): 368, (6, 7): 35, (4, 7): 7, (5, 7): 6
+=== Qwen3.8-27B
+  ffn_gate: best step 12288 (above minus below -0.028 log), score 2.74; permuted-order null: max over 200 draws 0.01, 99th pct 0.00 -> score / null max = 473.6
+  ffn_up: best step 12288 (above minus below -0.017 log), score 0.99; permuted-order null: max over 200 draws 0.00, 99th pct 0.00 -> score / null max = 342.8
+  ffn_down: best step 12288 (above minus below -0.016 log), score 0.95; permuted-order null: max over 200 draws 0.00, 99th pct 0.00 -> score / null max = 395.3
+  layer 16 neurons above the step: best partner below the step is the same base neuron for gate&up 0.514, gate&down 0.510, all three 0.440 (chance ~8.1e-05); median best cos gate 0.134
+  layer 32 neurons above the step: best partner below the step is the same base neuron for gate&up 0.215, gate&down 0.271, all three 0.129 (chance ~8.1e-05); median best cos gate 0.164
+  twins (16,32) neurons above: same gate partner in both layers 0.256; same up partner 0.270
+  layer 16 neurons below the step: best partner below the step is the same base neuron for gate&up 0.132, gate&down 0.120, all three 0.074 (chance ~8.1e-05); median best cos gate 0.124
+  layer 32 neurons below the step: best partner below the step is the same base neuron for gate&up 0.038, gate&down 0.060, all three 0.011 (chance ~8.1e-05); median best cos gate 0.158
+  twins (16,32) neurons below: same gate partner in both layers 0.076; same up partner 0.054
+  layer 24 neurons above the step: best partner below the step is the same base neuron for gate&up 0.636, gate&down 0.668, all three 0.588 (chance ~8.1e-05); median best cos gate 0.125
+  layer 40 neurons above the step: best partner below the step is the same base neuron for gate&up 0.488, gate&down 0.619, all three 0.421 (chance ~8.1e-05); median best cos gate 0.133
+  twins (24,40) neurons above: same gate partner in both layers 0.579; same up partner 0.515
+  layer 24 neurons below the step: best partner below the step is the same base neuron for gate&up 0.077, gate&down 0.090, all three 0.046 (chance ~8.1e-05); median best cos gate 0.113
+  layer 40 neurons below the step: best partner below the step is the same base neuron for gate&up 0.030, gate&down 0.083, all three 0.009 (chance ~8.1e-05); median best cos gate 0.116
+  twins (24,40) neurons below: same gate partner in both layers 0.119; same up partner 0.062
+  3. ffn_gate: cos(k, 12288+k) median per layer +0.104..+0.246 (mean +0.143); fraction > 0.1 per layer 0.53..0.99; shifted control medians +0.002..+0.011
+  3. ffn_up: cos(k, 12288+k) median per layer +0.050..+0.131 (mean +0.092); fraction > 0.1 per layer 0.15..0.75; shifted control medians -0.001..+0.001
+  3. ffn_down: cos(k, 12288+k) median per layer +0.093..+0.191 (mean +0.132); fraction > 0.1 per layer 0.46..0.90; shifted control medians -0.001..+0.001
+  4. 6 query heads per KV group; mutual q-and-o best pairs (local index) over 64 (layer, group) slots (any of 15 pairs possible): (1, 3): 26, (0, 2): 23, (3, 4): 5, (4, 5): 4, (0, 4): 2, (1, 5): 2
+done

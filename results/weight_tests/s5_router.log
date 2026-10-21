@@ -1,0 +1,28 @@
+Qwen3.6-35B-A3B: router (256, 2048); mean-row share of squared norm per layer: median 0.466, range 0.363..0.664
+  twin layers 8..31: 8:0.48 9:0.44 10:0.38 11:0.38 12:0.42 13:0.44 14:0.45 15:0.45 16:0.47 17:0.48 18:0.48 19:0.49 20:0.50 21:0.47 22:0.41 23:0.42 24:0.43 25:0.45 26:0.46 27:0.47 28:0.49 29:0.50 30:0.53 31:0.55
+
+mean ± SD across pairs (SD across layer pairs, not a CI); nontwin_all = every non-twin pair
+category          n        flat_raw          flat_c           eff_c         row_raw           row_c       row_c_min      row_c_shuf     meanrow_cos         rank1_c
+twin             12 +0.791±0.028 +0.742±0.031 +0.716±0.029 +0.808±0.026 +0.770±0.025 +0.172±0.115 -0.017±0.003 +0.848±0.036 +0.985±0.012
+ctl4             24 +0.369±0.038 +0.001±0.003 +0.001±0.002 +0.383±0.041 -0.011±0.004 -0.144±0.037 -0.012±0.005 +0.794±0.096 +0.005±0.004
+adjacent         39 +0.440±0.073 -0.001±0.004 -0.000±0.004 +0.453±0.075 -0.018±0.006 -0.159±0.040 -0.017±0.005 +0.920±0.100 +0.003±0.003
+nontwin_other   705 +0.275±0.123 +0.000±0.003 +0.000±0.003 +0.284±0.129 -0.008±0.006 -0.126±0.031 -0.008±0.006 +0.580±0.259 +0.004±0.004
+nontwin_all     768 +0.286±0.125 +0.000±0.003 +0.000±0.003 +0.295±0.131 -0.009±0.006 -0.128±0.033 -0.008±0.007 +0.604±0.263 +0.004±0.004
+
+twin pairs:
+  (8,20) flat raw +0.723 -> centred +0.691 (gain-folded +0.680); per-expert centred median +0.733 (min +0.142), shuffled -0.015; own expert best match 0.988; mean-row cos +0.758
+  (9,21) flat raw +0.758 -> centred +0.724 (gain-folded +0.708); per-expert centred median +0.748 (min +0.197), shuffled -0.015; own expert best match 0.992; mean-row cos +0.800
+  (10,22) flat raw +0.778 -> centred +0.748 (gain-folded +0.724); per-expert centred median +0.765 (min +0.153), shuffled -0.021; own expert best match 0.996; mean-row cos +0.825
+  (11,23) flat raw +0.792 -> centred +0.761 (gain-folded +0.735); per-expert centred median +0.774 (min +0.263), shuffled -0.015; own expert best match 0.984; mean-row cos +0.841
+  (12,24) flat raw +0.809 -> centred +0.775 (gain-folded +0.750); per-expert centred median +0.798 (min +0.298), shuffled -0.016; own expert best match 0.996; mean-row cos +0.855
+  (13,25) flat raw +0.818 -> centred +0.775 (gain-folded +0.748); per-expert centred median +0.800 (min +0.033), shuffled -0.020; own expert best match 0.992; mean-row cos +0.870
+  (14,26) flat raw +0.817 -> centred +0.779 (gain-folded +0.748); per-expert centred median +0.808 (min +0.261), shuffled -0.009; own expert best match 0.988; mean-row cos +0.863
+  (15,27) flat raw +0.827 -> centred +0.780 (gain-folded +0.748); per-expert centred median +0.799 (min +0.417), shuffled -0.019; own expert best match 0.996; mean-row cos +0.881
+  (16,28) flat raw +0.809 -> centred +0.744 (gain-folded +0.708); per-expert centred median +0.764 (min +0.129), shuffled -0.015; own expert best match 0.977; mean-row cos +0.880
+  (17,29) flat raw +0.804 -> centred +0.727 (gain-folded +0.692); per-expert centred median +0.759 (min +0.104), shuffled -0.014; own expert best match 0.980; mean-row cos +0.884
+  (18,30) flat raw +0.788 -> centred +0.710 (gain-folded +0.679); per-expert centred median +0.754 (min +0.017), shuffled -0.021; own expert best match 0.969; mean-row cos +0.867
+  (19,31) flat raw +0.771 -> centred +0.693 (gain-folded +0.668); per-expert centred median +0.732 (min +0.047), shuffled -0.020; own expert best match 0.957; mean-row cos +0.846
+flat_raw: twin min +0.723; non-twin max +0.578 at (36, 37); non-twin pairs above twin min: 0
+flat_c: twin min +0.691; non-twin max +0.017 at (36, 39); non-twin pairs above twin min: 0
+
+done

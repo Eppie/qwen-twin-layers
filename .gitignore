@@ -17,3 +17,6 @@ neuron-gallery.json
 .DS_Store
 .idea/
 .vscode/
+
+# Intermediate arrays written by weight_tests/ (per-neuron data, up to ~37 MB each)
+results/weight_tests/*.npz

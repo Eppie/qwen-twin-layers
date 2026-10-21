@@ -1,0 +1,69 @@
+Qwen3-32B: fresh-row replication, K=4 fresh disjoint samples per tensor type
+cos = signed cosine of flattened sampled rows; "twin" = mean over twin pairs (SD across pairs); nontwin = all other decoder-layer pairs holding the tensor, all twin relations excluded; ctl±4 = pairs (i, partner±4), same layer type, not twins
+
+attn_k  (row_len 5120, 1024 rows, sample size 256, layers 64)
+  orig    twin +0.254 ± 0.049 (n=24) | nontwin +0.0000 ± 0.0015 (max +0.008, n=1992) | ctl±4 -0.0002 ± 0.0016 (n=48)
+  fresh1  twin +0.256 ± 0.051 (n=24) | nontwin -0.0000 ± 0.0014 (max +0.005, n=1992) | ctl±4 +0.0001 ± 0.0015 (n=48)
+  fresh2  twin +0.258 ± 0.050 (n=24) | nontwin -0.0000 ± 0.0015 (max +0.007, n=1992) | ctl±4 +0.0003 ± 0.0012 (n=48)
+  fresh3  twin +0.249 ± 0.048 (n=24) | nontwin +0.0000 ± 0.0015 (max +0.009, n=1992) | ctl±4 +0.0000 ± 0.0014 (n=48)
+  fresh-sample spread of the twin mean: +0.249 .. +0.258 (SD across the 3 fresh samples 0.0048; orig +0.254)
+
+attn_output  (row_len 8192, 5120 rows, sample size 64, layers 64)
+  orig    twin +0.248 ± 0.068 (n=24) | nontwin -0.0001 ± 0.0014 (max +0.005, n=1992) | ctl±4 +0.0001 ± 0.0014 (n=48)
+  fresh1  twin +0.254 ± 0.070 (n=24) | nontwin +0.0000 ± 0.0014 (max +0.005, n=1992) | ctl±4 -0.0002 ± 0.0013 (n=48)
+  fresh2  twin +0.258 ± 0.073 (n=24) | nontwin +0.0000 ± 0.0014 (max +0.005, n=1992) | ctl±4 -0.0001 ± 0.0013 (n=48)
+  fresh3  twin +0.249 ± 0.070 (n=24) | nontwin +0.0000 ± 0.0014 (max +0.005, n=1992) | ctl±4 -0.0000 ± 0.0012 (n=48)
+  fresh4  twin +0.250 ± 0.068 (n=24) | nontwin +0.0001 ± 0.0014 (max +0.005, n=1992) | ctl±4 +0.0001 ± 0.0014 (n=48)
+  fresh-sample spread of the twin mean: +0.249 .. +0.258 (SD across the 4 fresh samples 0.0039; orig +0.248)
+
+attn_q  (row_len 5120, 8192 rows, sample size 256, layers 64)
+  orig    twin +0.135 ± 0.035 (n=24) | nontwin +0.0000 ± 0.0013 (max +0.006, n=1992) | ctl±4 +0.0002 ± 0.0012 (n=48)
+  fresh1  twin +0.139 ± 0.037 (n=24) | nontwin -0.0000 ± 0.0013 (max +0.007, n=1992) | ctl±4 -0.0000 ± 0.0013 (n=48)
+  fresh2  twin +0.138 ± 0.037 (n=24) | nontwin -0.0001 ± 0.0012 (max +0.008, n=1992) | ctl±4 -0.0000 ± 0.0013 (n=48)
+  fresh3  twin +0.140 ± 0.036 (n=24) | nontwin -0.0000 ± 0.0013 (max +0.006, n=1992) | ctl±4 +0.0001 ± 0.0013 (n=48)
+  fresh4  twin +0.142 ± 0.036 (n=24) | nontwin -0.0000 ± 0.0013 (max +0.008, n=1992) | ctl±4 -0.0000 ± 0.0012 (n=48)
+  fresh-sample spread of the twin mean: +0.138 .. +0.142 (SD across the 4 fresh samples 0.0017; orig +0.135)
+
+attn_v  (row_len 5120, 1024 rows, sample size 256, layers 64)
+  orig    twin +0.447 ± 0.066 (n=24) | nontwin +0.0000 ± 0.0010 (max +0.004, n=1992) | ctl±4 +0.0001 ± 0.0008 (n=48)
+  fresh1  twin +0.447 ± 0.066 (n=24) | nontwin -0.0000 ± 0.0010 (max +0.004, n=1992) | ctl±4 -0.0001 ± 0.0011 (n=48)
+  fresh2  twin +0.446 ± 0.066 (n=24) | nontwin -0.0000 ± 0.0010 (max +0.003, n=1992) | ctl±4 -0.0001 ± 0.0012 (n=48)
+  fresh3  twin +0.446 ± 0.065 (n=24) | nontwin +0.0000 ± 0.0010 (max +0.003, n=1992) | ctl±4 -0.0000 ± 0.0010 (n=48)
+  fresh-sample spread of the twin mean: +0.446 .. +0.447 (SD across the 3 fresh samples 0.0008; orig +0.447)
+
+ffn_down  (row_len 25600, 5120 rows, sample size 64, layers 64)
+  orig    twin +0.229 ± 0.049 (n=24) | nontwin +0.0000 ± 0.0008 (max +0.003, n=1992) | ctl±4 -0.0000 ± 0.0007 (n=48)
+  fresh1  twin +0.229 ± 0.049 (n=24) | nontwin +0.0000 ± 0.0008 (max +0.003, n=1992) | ctl±4 +0.0002 ± 0.0008 (n=48)
+  fresh2  twin +0.231 ± 0.051 (n=24) | nontwin -0.0000 ± 0.0008 (max +0.002, n=1992) | ctl±4 -0.0001 ± 0.0008 (n=48)
+  fresh3  twin +0.226 ± 0.048 (n=24) | nontwin +0.0000 ± 0.0008 (max +0.003, n=1992) | ctl±4 +0.0001 ± 0.0008 (n=48)
+  fresh4  twin +0.230 ± 0.046 (n=24) | nontwin +0.0000 ± 0.0008 (max +0.002, n=1992) | ctl±4 -0.0000 ± 0.0008 (n=48)
+  fresh-sample spread of the twin mean: +0.226 .. +0.231 (SD across the 4 fresh samples 0.0021; orig +0.229)
+
+ffn_gate  (row_len 5120, 25600 rows, sample size 256, layers 64)
+  orig    twin +0.224 ± 0.029 (n=24) | nontwin +0.0036 ± 0.0033 (max +0.047, n=1992) | ctl±4 +0.0035 ± 0.0018 (n=48)
+  fresh1  twin +0.220 ± 0.026 (n=24) | nontwin +0.0036 ± 0.0032 (max +0.037, n=1992) | ctl±4 +0.0035 ± 0.0017 (n=48)
+  fresh2  twin +0.220 ± 0.028 (n=24) | nontwin +0.0034 ± 0.0031 (max +0.043, n=1992) | ctl±4 +0.0034 ± 0.0015 (n=48)
+  fresh3  twin +0.225 ± 0.030 (n=24) | nontwin +0.0035 ± 0.0032 (max +0.041, n=1992) | ctl±4 +0.0035 ± 0.0015 (n=48)
+  fresh4  twin +0.224 ± 0.028 (n=24) | nontwin +0.0035 ± 0.0032 (max +0.044, n=1992) | ctl±4 +0.0034 ± 0.0017 (n=48)
+  fresh-sample spread of the twin mean: +0.220 .. +0.225 (SD across the 4 fresh samples 0.0026; orig +0.224)
+
+ffn_up  (row_len 5120, 25600 rows, sample size 256, layers 64)
+  orig    twin +0.206 ± 0.034 (n=24) | nontwin +0.0000 ± 0.0009 (max +0.003, n=1992) | ctl±4 -0.0000 ± 0.0010 (n=48)
+  fresh1  twin +0.207 ± 0.035 (n=24) | nontwin +0.0000 ± 0.0009 (max +0.003, n=1992) | ctl±4 -0.0000 ± 0.0009 (n=48)
+  fresh2  twin +0.204 ± 0.035 (n=24) | nontwin -0.0000 ± 0.0009 (max +0.003, n=1992) | ctl±4 +0.0002 ± 0.0007 (n=48)
+  fresh3  twin +0.211 ± 0.035 (n=24) | nontwin -0.0000 ± 0.0009 (max +0.003, n=1992) | ctl±4 +0.0002 ± 0.0010 (n=48)
+  fresh4  twin +0.206 ± 0.037 (n=24) | nontwin +0.0000 ± 0.0009 (max +0.003, n=1992) | ctl±4 +0.0001 ± 0.0009 (n=48)
+  fresh-sample spread of the twin mean: +0.204 .. +0.211 (SD across the 4 fresh samples 0.0026; orig +0.206)
+
+all matrices (mean over tensor types present in every decoder layer)
+  (pooled over the 7 tensor types present in every decoder layer that have >= 3 fresh samples: ['attn_k', 'attn_output', 'attn_q', 'attn_v', 'ffn_down', 'ffn_gate', 'ffn_up'])
+  orig    twin +0.249 ± 0.041 | nontwin +0.0005 ± 0.0006 (max +0.007)
+          best partner is a twin for 48/48 twinned layers
+  fresh1  twin +0.250 ± 0.042 | nontwin +0.0005 ± 0.0006 (max +0.006)
+          best partner is a twin for 48/48 twinned layers
+  fresh2  twin +0.251 ± 0.043 | nontwin +0.0005 ± 0.0006 (max +0.006)
+          best partner is a twin for 48/48 twinned layers
+  fresh3  twin +0.249 ± 0.042 | nontwin +0.0005 ± 0.0006 (max +0.005)
+          best partner is a twin for 48/48 twinned layers
+
+wrote 66528 rows to results/s0_32b_pairs.csv

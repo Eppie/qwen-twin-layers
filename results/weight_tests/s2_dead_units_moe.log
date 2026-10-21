@@ -1,0 +1,68 @@
+layer  0: dead units  54257  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)  54257  experts touched 256
+layer  1: dead units   2153  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)   2153  experts touched 129
+layer  2: dead units    952  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)    952  experts touched 40
+layer  3: dead units    370  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)    370  experts touched 20
+layer  4: dead units    181  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)    181  experts touched 16
+layer  5: dead units     18  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     18  experts touched 5
+layer  6: dead units      2  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      2  experts touched 1
+layer  7: dead units      2  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      2  experts touched 2
+layer  8: dead units     24  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     24  experts touched 2
+layer  9: dead units     29  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     29  experts touched 2
+layer 10: dead units      1  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      1  experts touched 1
+layer 11: dead units    212  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)    212  experts touched 2
+layer 12: dead units      0  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      0
+layer 13: dead units     38  (units zero in only some projections: 9);  near-dead (<1% of median norm in all three)     57  experts touched 2
+layer 14: dead units     30  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     30  experts touched 1
+layer 15: dead units      9  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      9  experts touched 1
+layer 16: dead units      7  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      7  experts touched 2
+layer 17: dead units     35  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     35  experts touched 2
+layer 18: dead units      9  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      9  experts touched 1
+layer 19: dead units      0  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      0
+layer 20: dead units     24  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     24  experts touched 2
+layer 21: dead units     29  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     29  experts touched 2
+layer 22: dead units      1  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      1  experts touched 1
+layer 23: dead units    212  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)    212  experts touched 2
+layer 24: dead units      0  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      0
+layer 25: dead units     34  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     34  experts touched 1
+layer 26: dead units     30  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     30  experts touched 1
+layer 27: dead units      9  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      9  experts touched 1
+layer 28: dead units      7  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      7  experts touched 2
+layer 29: dead units     35  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     35  experts touched 2
+layer 30: dead units      9  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      9  experts touched 1
+layer 31: dead units      0  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      0
+layer 32: dead units     16  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     16  experts touched 1
+layer 33: dead units      3  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      3  experts touched 2
+layer 34: dead units      0  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      0
+layer 35: dead units      0  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      0
+layer 36: dead units      2  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      2  experts touched 1
+layer 37: dead units     98  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)     98  experts touched 4
+layer 38: dead units      5  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)      5  experts touched 1
+layer 39: dead units    254  (units zero in only some projections: 0);  near-dead (<1% of median norm in all three)    254  experts touched 7
+
+dead: twin pairs (with any such units)
+  (8,20) sizes 24/24, shared 24 (expected if placed independently 0.00439), Jaccard 1.000
+  (9,21) sizes 29/29, shared 29 (expected if placed independently 0.00642), Jaccard 1.000
+  (10,22) sizes 1/1, shared 1 (expected if placed independently 7.63e-06), Jaccard 1.000
+  (11,23) sizes 212/212, shared 212 (expected if placed independently 0.343), Jaccard 1.000
+  (13,25) sizes 38/34, shared 34 (expected if placed independently 0.00986), Jaccard 0.895
+  (14,26) sizes 30/30, shared 30 (expected if placed independently 0.00687), Jaccard 1.000
+  (15,27) sizes 9/9, shared 9 (expected if placed independently 0.000618), Jaccard 1.000
+  (16,28) sizes 7/7, shared 7 (expected if placed independently 0.000374), Jaccard 1.000
+  (17,29) sizes 35/35, shared 35 (expected if placed independently 0.00935), Jaccard 1.000
+  (18,30) sizes 9/9, shared 9 (expected if placed independently 0.000618), Jaccard 1.000
+  non-twin pairs with units in both layers: 551; mean Jaccard 0.0002, max 0.016; total shared 2049 vs 2070.0 expected if independent; highest: (0,1) 884/2153, (1,3) 39/370, (4,11) 6/181, (4,23) 6/181, (1,25) 24/34
+
+near_dead: twin pairs (with any such units)
+  (8,20) sizes 24/24, shared 24 (expected if placed independently 0.00439), Jaccard 1.000
+  (9,21) sizes 29/29, shared 29 (expected if placed independently 0.00642), Jaccard 1.000
+  (10,22) sizes 1/1, shared 1 (expected if placed independently 7.63e-06), Jaccard 1.000
+  (11,23) sizes 212/212, shared 212 (expected if placed independently 0.343), Jaccard 1.000
+  (13,25) sizes 57/34, shared 34 (expected if placed independently 0.0148), Jaccard 0.596
+  (14,26) sizes 30/30, shared 30 (expected if placed independently 0.00687), Jaccard 1.000
+  (15,27) sizes 9/9, shared 9 (expected if placed independently 0.000618), Jaccard 1.000
+  (16,28) sizes 7/7, shared 7 (expected if placed independently 0.000374), Jaccard 1.000
+  (17,29) sizes 35/35, shared 35 (expected if placed independently 0.00935), Jaccard 1.000
+  (18,30) sizes 9/9, shared 9 (expected if placed independently 0.000618), Jaccard 1.000
+  non-twin pairs with units in both layers: 551; mean Jaccard 0.0002, max 0.016; total shared 2060 vs 2078.6 expected if independent; highest: (0,1) 884/2153, (1,3) 39/370, (4,11) 6/181, (4,23) 6/181, (1,13) 26/57
+
+done

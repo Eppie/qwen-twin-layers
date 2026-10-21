@@ -1,0 +1,13 @@
+query-head map: each 14B head (layer p) -> best-matching 32B head by q_proj rows (128 x 5120), cosine
+14B layer 0 vs 32B layer 0: best cos median 0.493; same KV group 1.00; off-best median 0.062
+   (group:local) 0:0->0:3 0:1->0:4 0:2->0:2 0:3->0:6 0:4->0:7 1:0->1:0 1:1->1:4 1:2->1:5 1:3->1:6 1:4->1:7 2:0->2:0 2:1->2:4 2:2->2:5 2:3->2:6 2:4->2:7 ...
+   second-best for heads 0-4 of group 0: 0:0 (0.67), 0:1 (0.69), 0:5 (0.49), 0:1 (0.10), 0:5 (0.22)
+14B layer 20 vs 32B layer 20: best cos median 0.129; same KV group 1.00; off-best median 0.033
+   (group:local) 0:0->0:3 0:1->0:4 0:2->0:5 0:3->0:6 0:4->0:7 1:0->1:3 1:1->1:4 1:2->1:2 1:3->1:6 1:4->1:7 2:0->2:3 2:1->2:1 2:2->2:5 2:3->2:3 2:4->2:3 ...
+   second-best for heads 0-4 of group 0: 0:0 (0.10), 0:1 (0.14), 0:2 (0.15), 0:7 (0.06), 0:2 (0.10)
+14B layer 20 vs 32B layer 44: best cos median 0.673; same KV group 1.00; off-best median 0.177
+   (group:local) 0:0->0:3 0:1->0:4 0:2->0:5 0:3->0:6 0:4->0:7 1:0->1:3 1:1->1:4 1:2->1:5 1:3->1:6 1:4->1:7 2:0->2:3 2:1->2:1 2:2->2:5 2:3->2:6 2:4->2:7 ...
+   second-best for heads 0-4 of group 0: 0:0 (0.35), 0:1 (0.34), 0:2 (0.39), 0:4 (0.14), 0:1 (0.36)
+14B layer 39 vs 32B layer 63: best cos median 0.497; same KV group 1.00; off-best median 0.043
+   (group:local) 0:0->0:3 0:1->0:4 0:2->0:5 0:3->0:6 0:4->0:7 1:0->1:3 1:1->1:4 1:2->1:5 1:3->1:6 1:4->1:7 2:0->2:3 2:1->2:4 2:2->2:2 2:3->2:6 2:4->2:7 ...
+   second-best for heads 0-4 of group 0: 0:0 (0.25), 0:1 (0.40), 0:2 (0.27), 0:7 (0.02), 0:2 (0.03)

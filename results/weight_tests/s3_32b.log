@@ -1,0 +1,46 @@
+Qwen3-32B: norm families ['attn_k_norm.weight', 'attn_norm.weight', 'attn_q_norm.weight', 'ffn_norm.weight']
+stored values (decoder layers): attn_k_norm.weight mean +1.705; attn_norm.weight mean +0.669; attn_q_norm.weight mean +1.662; ffn_norm.weight mean +0.575
+
+##### attn_k_norm.weight: 64 layers, dim 128
+  -1/(n-1) check (all-layer centring): mean r over all 2016 pairs -0.0111; norm-weighted mean -0.0179; -1/(n-1) = -0.0159; centred-vector norms CV 0.35
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear      freq_smooth       freq_rough        pair_diff        smooth_ma         rough_ma    pair_diff_raw
+  twin           24  +0.961±0.026  +0.928±0.050  +0.932±0.047  +0.939±0.048  +0.851±0.090  +0.564±0.425  +0.944±0.040  +0.958±0.035  +0.630±0.331  +0.948±0.038  +0.959±0.034
+  adjacent       63  +0.333±0.174  -0.037±0.109  +0.019±0.108  +0.084±0.145  +0.111±0.106  +0.486±0.432  +0.043±0.181  -0.029±0.133  +0.442±0.402  +0.023±0.189  -0.033±0.128
+  ctl4           56  +0.370±0.153  -0.036±0.151  +0.027±0.149  +0.010±0.154  +0.072±0.122  +0.001±0.589  +0.081±0.233  +0.012±0.169  +0.026±0.490  +0.077±0.223  +0.018±0.166
+  nontwin_other  1873 +0.332±0.164  -0.022±0.149  +0.034±0.147  +0.022±0.157  +0.082±0.131  +0.002±0.576  +0.042±0.222  +0.033±0.181  +0.008±0.509  +0.043±0.223  +0.019±0.179
+  variance share of the c_excl-centred gain (twin layers a): share_freq_smooth 0.06, share_freq_rough 0.21, share_pair_diff 0.73
+  c_excl: twin pairs above the max over ctl4 pairs: 24/24; twin min +0.856, ctl4 max +0.418
+  local_excl: twin pairs above the max over ctl4 pairs: 24/24; twin min +0.788, ctl4 max +0.347
+
+##### attn_norm.weight: 64 layers, dim 5120
+  -1/(n-1) check (all-layer centring): mean r over all 2016 pairs +0.3571; norm-weighted mean -0.0402; -1/(n-1) = -0.0159; centred-vector norms CV 1.21
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear
+  twin           24  +0.860±0.101  +0.697±0.390  +0.709±0.384  +0.554±0.259  +0.386±0.434
+  adjacent       63  +0.891±0.148  +0.951±0.124  +0.954±0.119  +0.287±0.414  +0.880±0.136
+  ctl4           56  +0.674±0.210  +0.552±0.556  +0.579±0.545  +0.010±0.389  +0.293±0.485
+  nontwin_other  1873 +0.446±0.350  +0.327±0.728  +0.352±0.720  +0.013±0.347  +0.147±0.548
+  c_excl: twin pairs above the max over ctl4 pairs: 2/24; twin min -0.505, ctl4 max +0.989
+  local_excl: twin pairs above the max over ctl4 pairs: 12/24; twin min -0.035, ctl4 max +0.640
+
+##### attn_q_norm.weight: 64 layers, dim 128
+  -1/(n-1) check (all-layer centring): mean r over all 2016 pairs -0.0139; norm-weighted mean -0.0166; -1/(n-1) = -0.0159; centred-vector norms CV 0.21
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear      freq_smooth       freq_rough        pair_diff        smooth_ma         rough_ma    pair_diff_raw
+  twin           24  +0.935±0.044  +0.877±0.095  +0.884±0.090  +0.922±0.047  +0.735±0.201  +0.577±0.447  +0.925±0.045  +0.930±0.064  +0.610±0.377  +0.935±0.039  +0.925±0.078
+  adjacent       63  +0.325±0.210  +0.001±0.141  +0.053±0.139  +0.115±0.155  +0.179±0.135  +0.520±0.412  +0.053±0.216  -0.026±0.189  +0.500±0.377  +0.033±0.210  -0.046±0.183
+  ctl4           56  +0.360±0.182  -0.008±0.147  +0.053±0.146  +0.046±0.128  +0.084±0.155  +0.130±0.580  +0.073±0.231  +0.045±0.147  +0.116±0.516  +0.062±0.235  +0.025±0.160
+  nontwin_other  1873 +0.293±0.179  -0.026±0.140  +0.027±0.139  +0.018±0.133  +0.073±0.166  -0.001±0.573  +0.025±0.196  +0.038±0.160  +0.001±0.523  +0.026±0.196  +0.013±0.160
+  variance share of the c_excl-centred gain (twin layers a): share_freq_smooth 0.11, share_freq_rough 0.30, share_pair_diff 0.59
+  c_excl: twin pairs above the max over ctl4 pairs: 24/24; twin min +0.699, ctl4 max +0.465
+  local_excl: twin pairs above the max over ctl4 pairs: 24/24; twin min +0.793, ctl4 max +0.273
+
+##### ffn_norm.weight: 64 layers, dim 5120
+  -1/(n-1) check (all-layer centring): mean r over all 2016 pairs +0.0620; norm-weighted mean -0.0258; -1/(n-1) = -0.0159; centred-vector norms CV 0.78
+  category       n               raw            c_all           c_excl       local_excl     c_excl_spear
+  twin           24  +0.940±0.032  +0.354±0.195  +0.385±0.191  +0.491±0.228  +0.235±0.299
+  adjacent       63  +0.945±0.113  +0.859±0.191  +0.869±0.180  +0.570±0.245  +0.846±0.202
+  ctl4           56  +0.860±0.166  +0.130±0.334  +0.192±0.328  +0.002±0.313  +0.127±0.436
+  nontwin_other  1873 +0.637±0.363  +0.029±0.439  +0.078±0.432  +0.023±0.275  +0.049±0.509
+  c_excl: twin pairs above the max over ctl4 pairs: 0/24; twin min -0.098, ctl4 max +0.825
+  local_excl: twin pairs above the max over ctl4 pairs: 11/24; twin min +0.027, ctl4 max +0.581
+
+done

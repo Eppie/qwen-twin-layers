@@ -1,0 +1,59 @@
+checkpoint: Qwen3-32B; architectures ['Qwen3ForCausalLM']; layers 64; rms_norm_eps 1e-06; tie_word_embeddings False
+per-layer parameters (11): input_layernorm.weight, mlp.down_proj.weight, mlp.gate_proj.weight, mlp.up_proj.weight, post_attention_layernorm.weight, self_attn.k_norm.weight, self_attn.k_proj.weight, self_attn.o_proj.weight, self_attn.q_norm.weight, self_attn.q_proj.weight, self_attn.v_proj.weight
+non-layer parameters: lm_head.weight, model.embed_tokens.weight, model.norm.weight
+per-layer parameters not covered by this analysis: none
+  self_attn.q_proj: shape [8192, 5120] BF16
+  self_attn.k_proj: shape [1024, 5120] BF16
+  self_attn.v_proj: shape [1024, 5120] BF16
+  self_attn.o_proj: shape [5120, 8192] BF16
+  mlp.gate_proj: shape [25600, 5120] BF16
+  mlp.up_proj: shape [25600, 5120] BF16
+  mlp.down_proj: shape [5120, 25600] BF16
+
+## Full-tensor cosine (float64), native BF16
+kind         pair      attn_q      attn_k      attn_v attn_output    ffn_gate      ffn_up    ffn_down     mean
+twin       8,32        0.0949      0.1710      0.3363      0.2380      0.2068      0.1913      0.2432   0.2116
+twin      12,36        0.1653      0.2894      0.4314      0.2784      0.2217      0.2277      0.2731   0.2696
+twin      16,40        0.1831      0.3028      0.4810      0.3024      0.2419      0.2397      0.2660   0.2881
+twin      20,44        0.1036      0.1875      0.4379      0.2373      0.2350      0.2258      0.2494   0.2395
+twin      24,48        0.1451      0.2733      0.5488      0.3211      0.2327      0.2168      0.2360   0.2820
+twin      28,52        0.1212      0.2209      0.4376      0.1906      0.2082      0.1740      0.1738   0.2181
+twin      31,55        0.0747      0.1842      0.3260      0.0851      0.1386      0.1061      0.0992   0.1448
+control    7,31        0.0001     -0.0010      0.0007     -0.0001      0.0070     -0.0002     -0.0001   0.0009
+control   32,56       -0.0001      0.0005      0.0008      0.0000      0.0029     -0.0001      0.0001   0.0006
+control    8,31        0.0000      0.0007     -0.0002     -0.0001      0.0052     -0.0000      0.0000   0.0008
+control    8,33       -0.0002     -0.0007     -0.0006     -0.0000      0.0044      0.0002      0.0002   0.0005
+control   16,39        0.0001      0.0004     -0.0003     -0.0001      0.0042     -0.0000      0.0000   0.0006
+control   16,41       -0.0004      0.0010     -0.0009     -0.0002      0.0025     -0.0001      0.0001   0.0003
+control    8,36       -0.0001      0.0001      0.0010      0.0003      0.0036     -0.0000      0.0001   0.0007
+control   20,40        0.0003     -0.0006     -0.0008      0.0001      0.0034      0.0000      0.0000   0.0003
+(76s)
+
+## Norm gains (native), Pearson r, raw
+attn_norm    8,32:+0.800  12,36:+0.887  16,40:+0.871  20,44:+0.913  24,48:+0.921  28,52:+0.858  31,55:+0.424  7,31:+0.392  32,56:+0.600  8,31:+0.471  8,33:+0.730  16,39:+0.854  16,41:+0.876  8,36:+0.703  20,40:+0.910
+ffn_norm     8,32:+0.812  12,36:+0.975  16,40:+0.922  20,44:+0.959  24,48:+0.949  28,52:+0.945  31,55:+0.905  7,31:+0.615  32,56:+0.868  8,31:+0.711  8,33:+0.675  16,39:+0.886  16,41:+0.925  8,36:+0.687  20,40:+0.940
+attn_q_norm  8,32:+0.984  12,36:+0.983  16,40:+0.963  20,44:+0.872  24,48:+0.899  28,52:+0.925  31,55:+0.943  7,31:+0.362  32,56:+0.166  8,31:+0.151  8,33:-0.040  16,39:+0.418  16,41:+0.450  8,36:+0.203  20,40:+0.426
+attn_k_norm  8,32:+0.994  12,36:+0.987  16,40:+0.984  20,44:+0.938  24,48:+0.941  28,52:+0.941  31,55:+0.966  7,31:+0.432  32,56:+0.163  8,31:+0.171  8,33:+0.031  16,39:+0.416  16,41:+0.434  8,36:+0.244  20,40:+0.447
+
+## GGUF (Q8_0) vs native, same tensors
+layout: GGUF row r of blk.L.<t> compared with native row r of model.layers.L.<p> (no transpose / permutation)
+attn_q       over 19 layers: min cos(native, gguf) 0.999984; max e 0.0056; max relative error 0.0056
+attn_k       over 19 layers: min cos(native, gguf) 0.999984; max e 0.0057; max relative error 0.0057
+attn_v       over 19 layers: min cos(native, gguf) 0.999983; max e 0.0058; max relative error 0.0058
+attn_output  over 19 layers: min cos(native, gguf) 0.999985; max e 0.0054; max relative error 0.0054
+ffn_gate     over 19 layers: min cos(native, gguf) 0.999984; max e 0.0056; max relative error 0.0056
+ffn_up       over 19 layers: min cos(native, gguf) 0.999985; max e 0.0055; max relative error 0.0055
+ffn_down     over 19 layers: min cos(native, gguf) 0.999984; max e 0.0056; max relative error 0.0056
+attn_norm    max |native - gguf| over 19 layers: 0.00e+00
+ffn_norm     max |native - gguf| over 19 layers: 0.00e+00
+attn_q_norm  max |native - gguf| over 19 layers: 0.00e+00
+attn_k_norm  max |native - gguf| over 19 layers: 0.00e+00
+
+## Bound on the quantization effect for each measured cosine: e_a + e_b (max over pairs, per family)
+attn_q       max e_a + e_b = 0.0111
+attn_k       max e_a + e_b = 0.0113
+attn_v       max e_a + e_b = 0.0114
+attn_output  max e_a + e_b = 0.0108
+ffn_gate     max e_a + e_b = 0.0111
+ffn_up       max e_a + e_b = 0.0109
+ffn_down     max e_a + e_b = 0.0111

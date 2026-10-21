@@ -1,0 +1,127 @@
+Qwen3.6-35B-A3B: tensors ('ffn_gate_shexp', 'ffn_up_shexp', 'ffn_down_shexp'), N=512 neurons, D=2048; 512 query neurons; R=8 control replicates
+
+=== pair (8,20) [linear], controls [(8, 16), (8, 24)]  (1s)
+  gate  same-index cos median +0.312 [+0.294,+0.328] IQR +0.197..+0.420 (5%..95% +0.043..+0.565) | ctl median +0.0007, p99 +0.1160; shuffled p99 +0.2010 | frac > ctl p99 0.877 [0.850,0.904], > p99.9 0.762, > 0 0.984
+        flat cos +0.320; w/o top-1% joint-norm neurons +0.320 (w/o top-1% gate-norm +0.311); top 1% carry 0.013 of the inner product vs 0.012 of norm mass; neurons > ctl p99 carry 0.980 of it
+        tercile (low/mid/high joint norm) median +0.314 / +0.340 / +0.231; frac > ctl p99 0.854 / 0.947 / 0.830
+        retrieval among all 512: A->B median rank 1, rank 1 0.648, top 10 0.834, top 1% 0.783; B->A rank 1 0.689 | controls: median rank 270, rank 1 0.0010
+  up    same-index cos median +0.325 [+0.309,+0.346] IQR +0.208..+0.410 (5%..95% +0.042..+0.550) | ctl median +0.0001, p99 +0.0699; shuffled p99 +0.0906 | frac > ctl p99 0.930 [0.908,0.952], > p99.9 0.902, > 0 0.988
+        flat cos +0.315; w/o top-1% joint-norm neurons +0.313 (w/o top-1% up-norm +0.312); top 1% carry 0.024 of the inner product vs 0.019 of norm mass; neurons > ctl p99 carry 0.995 of it
+        tercile (low/mid/high joint norm) median +0.280 / +0.341 / +0.351; frac > ctl p99 0.936 / 0.947 / 0.906
+        retrieval among all 512: A->B median rank 1, rank 1 0.836, top 10 0.934, top 1% 0.922; B->A rank 1 0.846 | controls: median rank 256, rank 1 0.0020
+  down  same-index cos median +0.342 [+0.329,+0.361] IQR +0.229..+0.434 (5%..95% +0.043..+0.582) | ctl median +0.0029, p99 +0.1085; shuffled p99 +0.1234 | frac > ctl p99 0.904 [0.879,0.930], > p99.9 0.863, > 0 0.980
+        flat cos +0.335; w/o top-1% joint-norm neurons +0.333 (w/o top-1% down-norm +0.333); top 1% carry 0.025 of the inner product vs 0.020 of norm mass; neurons > ctl p99 carry 0.991 of it
+        tercile (low/mid/high joint norm) median +0.301 / +0.340 / +0.373; frac > ctl p99 0.883 / 0.941 / 0.889
+        retrieval among all 512: A->B median rank 1, rank 1 0.803, top 10 0.934, top 1% 0.918; B->A rank 1 0.811 | controls: median rank 236, rank 1 0.0020
+  joint (sum of 3 cosines) retrieval: rank 1 0.881 (B->A 0.877), median rank 1; controls rank 1 0.0020, 0.0000
+  xval twin (8,20): gate-half match = same index for 0.645 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.315 / +0.388 / +0.183 vs +0.301; up +0.231 / +0.363 / -0.010 vs +0.312; down +0.250 / +0.394 / -0.013 vs +0.334
+  xval ctl  (8,16): gate-half match = same index for 0.000 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.131 / +nan / +0.131 vs +0.000; up +0.004 / +nan / +0.004 vs -0.001; down +0.007 / +nan / +0.007 vs +0.001
+  xval ctl  (8,24): gate-half match = same index for 0.000 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.130 / +nan / +0.130 vs +0.003; up +0.004 / +nan / +0.004 vs +0.001; down +0.012 / +nan / +0.012 vs +0.004
+  fingerprint twin correlation across neurons: actual | control (a) shared signed residual perms mean ± SD | control (b) shared neuron perms mean ± SD | non-twin ctl pairs
+    cos_gu        +0.488 | +0.120 ± 0.052 | +0.339 ± 0.029 | -0.015, -0.026
+    cos_gd        +0.876 | +0.142 ± 0.049 | +0.394 ± 0.131 | +0.039, +0.031
+    cos_ud        +0.774 | +0.104 ± 0.037 | +0.484 ± 0.241 | +0.087, -0.057
+    lognorm_g     +0.510 |    (n/a: norms unchanged) | +0.510 ± 0.000 | +0.035, -0.078
+    lognorm_u     +0.729 |    (n/a: norms unchanged) | +0.729 ± 0.000 | +0.025, -0.030
+    lognorm_d     +0.699 |    (n/a: norms unchanged) | +0.699 ± 0.000 | +0.046, -0.087
+    logratio_g_u  +0.613 |    (n/a: norms unchanged) | +0.593 ± 0.015 | +0.043, -0.088
+    logratio_d_u  +0.499 |    (n/a: norms unchanged) | +0.714 ± 0.017 | -0.009, -0.016
+    lognorm_mean  +0.687 |    (n/a: norms unchanged) | +0.643 ± 0.019 | +0.031, -0.008
+    retention coupling corr(twin cos gate~up) +0.763 | control (b) -0.009 ± 0.060 | non-twin pairs -0.229, +0.148
+    retention coupling corr(twin cos gate~down) +0.810 | control (b) +0.017 ± 0.026 | non-twin pairs -0.003, -0.098
+    retention coupling corr(twin cos up~down) +0.910 | control (b) -0.022 ± 0.034 | non-twin pairs +0.067, +0.185
+
+=== pair (12,24) [linear], controls [(12, 20), (12, 28)]  (1s)
+  gate  same-index cos median +0.422 [+0.395,+0.440] IQR +0.315..+0.509 (5%..95% +0.123..+0.603) | ctl median +0.0041, p99 +0.1079; shuffled p99 +0.1550 | frac > ctl p99 0.959 [0.941,0.975], > p99.9 0.902, > 0 0.992
+        flat cos +0.406; w/o top-1% joint-norm neurons +0.406 (w/o top-1% gate-norm +0.403); top 1% carry 0.010 of the inner product vs 0.011 of norm mass; neurons > ctl p99 carry 0.996 of it
+        tercile (low/mid/high joint norm) median +0.425 / +0.442 / +0.400; frac > ctl p99 0.977 / 0.965 / 0.936
+        retrieval among all 512: A->B median rank 1, rank 1 0.871, top 10 0.965, top 1% 0.951; B->A rank 1 0.863 | controls: median rank 250, rank 1 0.0010
+  up    same-index cos median +0.395 [+0.379,+0.414] IQR +0.297..+0.487 (5%..95% +0.100..+0.577) | ctl median -0.0004, p99 +0.0824; shuffled p99 +0.1073 | frac > ctl p99 0.959 [0.941,0.975], > p99.9 0.926, > 0 0.990
+        flat cos +0.372; w/o top-1% joint-norm neurons +0.372 (w/o top-1% up-norm +0.372); top 1% carry 0.031 of the inner product vs 0.029 of norm mass; neurons > ctl p99 carry 0.997 of it
+        tercile (low/mid/high joint norm) median +0.414 / +0.410 / +0.371; frac > ctl p99 0.971 / 0.976 / 0.930
+        retrieval among all 512: A->B median rank 1, rank 1 0.881, top 10 0.961, top 1% 0.953; B->A rank 1 0.885 | controls: median rank 262, rank 1 0.0000
+  down  same-index cos median +0.409 [+0.396,+0.431] IQR +0.304..+0.503 (5%..95% +0.115..+0.597) | ctl median -0.0002, p99 +0.0997; shuffled p99 +0.1251 | frac > ctl p99 0.957 [0.938,0.975], > p99.9 0.906, > 0 0.990
+        flat cos +0.386; w/o top-1% joint-norm neurons +0.384 (w/o top-1% down-norm +0.383); top 1% carry 0.030 of the inner product vs 0.025 of norm mass; neurons > ctl p99 carry 0.998 of it
+        tercile (low/mid/high joint norm) median +0.417 / +0.420 / +0.392; frac > ctl p99 0.965 / 0.971 / 0.936
+        retrieval among all 512: A->B median rank 1, rank 1 0.857, top 10 0.957, top 1% 0.939; B->A rank 1 0.850 | controls: median rank 257, rank 1 0.0000
+  joint (sum of 3 cosines) retrieval: rank 1 0.920 (B->A 0.918), median rank 1; controls rank 1 0.0020, 0.0020
+  xval twin (12,24): gate-half match = same index for 0.850 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.406 / +0.435 / +0.246 vs +0.396; up +0.355 / +0.417 / +0.007 vs +0.380; down +0.369 / +0.430 / +0.026 vs +0.392
+  xval ctl  (12,20): gate-half match = same index for 0.004 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.214 / +0.139 / +0.214 vs +0.007; up +0.004 / -0.071 / +0.005 vs -0.002; down -0.001 / -0.082 / -0.001 vs -0.001
+  xval ctl  (12,28): gate-half match = same index for 0.000 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.149 / +nan / +0.149 vs +0.001; up +0.001 / +nan / +0.001 vs +0.000; down -0.002 / +nan / -0.002 vs +0.000
+  fingerprint twin correlation across neurons: actual | control (a) shared signed residual perms mean ± SD | control (b) shared neuron perms mean ± SD | non-twin ctl pairs
+    cos_gu        +0.610 | +0.185 ± 0.033 | +0.385 ± 0.044 | -0.010, -0.056
+    cos_gd        +0.915 | +0.196 ± 0.048 | +0.476 ± 0.126 | -0.004, -0.061
+    cos_ud        +0.885 | +0.188 ± 0.044 | +0.466 ± 0.148 | -0.087, +0.006
+    lognorm_g     +0.655 |    (n/a: norms unchanged) | +0.655 ± 0.000 | -0.010, +0.038
+    lognorm_u     +0.584 |    (n/a: norms unchanged) | +0.584 ± 0.000 | -0.071, +0.060
+    lognorm_d     +0.642 |    (n/a: norms unchanged) | +0.642 ± 0.000 | -0.090, +0.032
+    logratio_g_u  +0.610 |    (n/a: norms unchanged) | +0.611 ± 0.019 | -0.070, +0.048
+    logratio_d_u  +0.307 |    (n/a: norms unchanged) | +0.606 ± 0.013 | +0.014, -0.040
+    lognorm_mean  +0.650 |    (n/a: norms unchanged) | +0.636 ± 0.017 | -0.026, +0.043
+    retention coupling corr(twin cos gate~up) +0.874 | control (b) -0.014 ± 0.047 | non-twin pairs -0.074, +0.110
+    retention coupling corr(twin cos gate~down) +0.889 | control (b) +0.000 ± 0.027 | non-twin pairs -0.078, +0.026
+    retention coupling corr(twin cos up~down) +0.883 | control (b) -0.018 ± 0.044 | non-twin pairs -0.113, -0.011
+
+=== pair (16,28) [linear], controls [(16, 24), (16, 32)]  (1s)
+  gate  same-index cos median +0.340 [+0.329,+0.352] IQR +0.266..+0.416 (5%..95% +0.122..+0.544) | ctl median +0.0008, p99 +0.1029; shuffled p99 +0.1150 | frac > ctl p99 0.961 [0.943,0.977], > p99.9 0.889, > 0 0.990
+        flat cos +0.338; w/o top-1% joint-norm neurons +0.335 (w/o top-1% gate-norm +0.341); top 1% carry 0.029 of the inner product vs 0.018 of norm mass; neurons > ctl p99 carry 0.994 of it
+        tercile (low/mid/high joint norm) median +0.345 / +0.335 / +0.338; frac > ctl p99 0.971 / 0.941 / 0.971
+        retrieval among all 512: A->B median rank 1, rank 1 0.846, top 10 0.967, top 1% 0.949; B->A rank 1 0.861 | controls: median rank 260, rank 1 0.0020
+  up    same-index cos median +0.313 [+0.300,+0.325] IQR +0.229..+0.388 (5%..95% +0.103..+0.497) | ctl median -0.0023, p99 +0.0854; shuffled p99 +0.1213 | frac > ctl p99 0.969 [0.954,0.984], > p99.9 0.855, > 0 0.996
+        flat cos +0.307; w/o top-1% joint-norm neurons +0.306 (w/o top-1% up-norm +0.309); top 1% carry 0.028 of the inner product vs 0.024 of norm mass; neurons > ctl p99 carry 0.996 of it
+        tercile (low/mid/high joint norm) median +0.335 / +0.307 / +0.301; frac > ctl p99 0.977 / 0.965 / 0.965
+        retrieval among all 512: A->B median rank 1, rank 1 0.846, top 10 0.969, top 1% 0.951; B->A rank 1 0.867 | controls: median rank 274, rank 1 0.0010
+  down  same-index cos median +0.314 [+0.304,+0.326] IQR +0.233..+0.391 (5%..95% +0.091..+0.503) | ctl median +0.0001, p99 +0.1117; shuffled p99 +0.1203 | frac > ctl p99 0.947 [0.928,0.965], > p99.9 0.762, > 0 0.990
+        flat cos +0.306; w/o top-1% joint-norm neurons +0.305 (w/o top-1% down-norm +0.307); top 1% carry 0.029 of the inner product vs 0.024 of norm mass; neurons > ctl p99 carry 0.992 of it
+        tercile (low/mid/high joint norm) median +0.333 / +0.306 / +0.306; frac > ctl p99 0.971 / 0.941 / 0.930
+        retrieval among all 512: A->B median rank 1, rank 1 0.814, top 10 0.953, top 1% 0.934; B->A rank 1 0.838 | controls: median rank 257, rank 1 0.0010
+  joint (sum of 3 cosines) retrieval: rank 1 0.926 (B->A 0.928), median rank 1; controls rank 1 0.0000, 0.0000
+  xval twin (16,28): gate-half match = same index for 0.846 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.338 / +0.362 / +0.201 vs +0.333; up +0.285 / +0.336 / +0.006 vs +0.309; down +0.283 / +0.337 / -0.014 vs +0.312
+  xval ctl  (16,24): gate-half match = same index for 0.000 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.243 / +nan / +0.243 vs +0.003; up -0.003 / +nan / -0.003 vs -0.002; down +0.002 / +nan / +0.002 vs +0.000
+  xval ctl  (16,32): gate-half match = same index for 0.002 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.104 / +0.192 / +0.104 vs +0.002; up -0.002 / -0.020 / -0.002 vs -0.003; down -0.000 / -0.094 / +0.000 vs -0.001
+  fingerprint twin correlation across neurons: actual | control (a) shared signed residual perms mean ± SD | control (b) shared neuron perms mean ± SD | non-twin ctl pairs
+    cos_gu        +0.602 | +0.094 ± 0.053 | +0.310 ± 0.072 | +0.039, +0.021
+    cos_gd        +0.850 | +0.120 ± 0.046 | +0.334 ± 0.084 | -0.052, -0.027
+    cos_ud        +0.857 | +0.086 ± 0.037 | +0.290 ± 0.126 | -0.019, -0.051
+    lognorm_g     +0.556 |    (n/a: norms unchanged) | +0.556 ± 0.000 | +0.055, +0.095
+    lognorm_u     +0.754 |    (n/a: norms unchanged) | +0.754 ± 0.000 | -0.033, -0.070
+    lognorm_d     +0.712 |    (n/a: norms unchanged) | +0.712 ± 0.000 | -0.054, -0.057
+    logratio_g_u  +0.617 |    (n/a: norms unchanged) | +0.629 ± 0.012 | +0.019, +0.002
+    logratio_d_u  +0.301 |    (n/a: norms unchanged) | +0.731 ± 0.016 | -0.035, +0.018
+    lognorm_mean  +0.755 |    (n/a: norms unchanged) | +0.645 ± 0.012 | -0.012, +0.009
+    retention coupling corr(twin cos gate~up) +0.834 | control (b) +0.026 ± 0.049 | non-twin pairs -0.002, -0.148
+    retention coupling corr(twin cos gate~down) +0.809 | control (b) +0.011 ± 0.063 | non-twin pairs -0.067, -0.082
+    retention coupling corr(twin cos up~down) +0.845 | control (b) +0.024 ± 0.039 | non-twin pairs -0.063, -0.016
+
+=== pair (19,31) [full], controls [(19, 27), (19, 35)]  (1s)
+  gate  same-index cos median +0.289 [+0.280,+0.301] IQR +0.209..+0.391 (5%..95% +0.087..+0.530) | ctl median +0.0028, p99 +0.1230; shuffled p99 +0.1244 | frac > ctl p99 0.918 [0.893,0.940], > p99.9 0.518, > 0 0.996
+        flat cos +0.322; w/o top-1% joint-norm neurons +0.320 (w/o top-1% gate-norm +0.308); top 1% carry 0.019 of the inner product vs 0.012 of norm mass; neurons > ctl p99 carry 0.984 of it
+        tercile (low/mid/high joint norm) median +0.295 / +0.283 / +0.287; frac > ctl p99 0.942 / 0.900 / 0.912
+        retrieval among all 512: A->B median rank 1, rank 1 0.775, top 10 0.934, top 1% 0.900; B->A rank 1 0.719 | controls: median rank 247, rank 1 0.0010
+  up    same-index cos median +0.235 [+0.223,+0.250] IQR +0.154..+0.325 (5%..95% +0.029..+0.447) | ctl median +0.0000, p99 +0.0836; shuffled p99 +0.0756 | frac > ctl p99 0.891 [0.866,0.916], > p99.9 0.695, > 0 0.965
+        flat cos +0.229; w/o top-1% joint-norm neurons +0.233 (w/o top-1% up-norm +0.233); top 1% carry 0.016 of the inner product vs 0.032 of norm mass; neurons > ctl p99 carry 1.002 of it
+        tercile (low/mid/high joint norm) median +0.257 / +0.231 / +0.228; frac > ctl p99 0.912 / 0.900 / 0.860
+        retrieval among all 512: A->B median rank 1, rank 1 0.764, top 10 0.900, top 1% 0.881; B->A rank 1 0.754 | controls: median rank 256, rank 1 0.0020
+  down  same-index cos median +0.240 [+0.222,+0.251] IQR +0.163..+0.321 (5%..95% +0.065..+0.434) | ctl median -0.0008, p99 +0.1307; shuffled p99 +0.0820 | frac > ctl p99 0.826 [0.795,0.855], > p99.9 0.191, > 0 0.988
+        flat cos +0.237; w/o top-1% joint-norm neurons +0.239 (w/o top-1% down-norm +0.240); top 1% carry 0.019 of the inner product vs 0.027 of norm mass; neurons > ctl p99 carry 0.943 of it
+        tercile (low/mid/high joint norm) median +0.275 / +0.232 / +0.227; frac > ctl p99 0.825 / 0.800 / 0.854
+        retrieval among all 512: A->B median rank 1, rank 1 0.695, top 10 0.920, top 1% 0.873; B->A rank 1 0.680 | controls: median rank 264, rank 1 0.0029
+  joint (sum of 3 cosines) retrieval: rank 1 0.902 (B->A 0.854), median rank 1; controls rank 1 0.0039, 0.0000
+  xval twin (19,31): gate-half match = same index for 0.752 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.307 / +0.345 / +0.192 vs +0.304; up +0.200 / +0.265 / +0.003 vs +0.236; down +0.209 / +0.274 / +0.013 vs +0.244
+  xval ctl  (19,27): gate-half match = same index for 0.000 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.239 / +nan / +0.239 vs +0.006; up +0.002 / +nan / +0.002 vs -0.001; down +0.007 / +nan / +0.007 vs +0.001
+  xval ctl  (19,35): gate-half match = same index for 0.002 of queries; held-out cos of the frozen match (all / match==same / match!=same) vs same-index: gate_heldout +0.085 / +0.086 / +0.085 vs +0.005; up -0.002 / -0.008 / -0.002 vs +0.001; down -0.002 / +0.029 / -0.002 vs -0.002
+  fingerprint twin correlation across neurons: actual | control (a) shared signed residual perms mean ± SD | control (b) shared neuron perms mean ± SD | non-twin ctl pairs
+    cos_gu        +0.560 | +0.077 ± 0.042 | +0.294 ± 0.062 | -0.075, -0.017
+    cos_gd        +0.825 | +0.087 ± 0.024 | +0.376 ± 0.134 | +0.031, -0.044
+    cos_ud        +0.796 | +0.053 ± 0.045 | +0.346 ± 0.213 | -0.031, +0.005
+    lognorm_g     +0.577 |    (n/a: norms unchanged) | +0.577 ± 0.000 | +0.018, +0.061
+    lognorm_u     +0.576 |    (n/a: norms unchanged) | +0.576 ± 0.000 | +0.018, +0.046
+    lognorm_d     +0.541 |    (n/a: norms unchanged) | +0.541 ± 0.000 | +0.001, +0.040
+    logratio_g_u  +0.526 |    (n/a: norms unchanged) | +0.587 ± 0.025 | -0.017, +0.069
+    logratio_d_u  +0.400 |    (n/a: norms unchanged) | +0.556 ± 0.014 | +0.066, +0.001
+    lognorm_mean  +0.662 |    (n/a: norms unchanged) | +0.564 ± 0.021 | +0.052, +0.037
+    retention coupling corr(twin cos gate~up) +0.440 | control (b) +0.023 ± 0.045 | non-twin pairs +0.048, -0.047
+    retention coupling corr(twin cos gate~down) +0.757 | control (b) -0.013 ± 0.042 | non-twin pairs -0.066, -0.262
+    retention coupling corr(twin cos up~down) +0.562 | control (b) +0.002 ± 0.033 | non-twin pairs +0.188, +0.056
+
+done
